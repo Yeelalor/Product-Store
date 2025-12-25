@@ -1,22 +1,21 @@
 <template>
   <div class="bg d-flex" style="width: 100vw; height: 100vh">
     <v-row justify="end" style="margin-top: 10px; margin-right: 20px">
-      <v-col cols="2" color="white"
-        ><div color="blue"><Language></Language></div>
+      <v-col cols="2" color="white">
+        <div color="blue">
+          <Language></Language>
+        </div>
       </v-col>
       <v-col cols="12" md="12">
         <v-row justify="center">
-          <v-col cols="12"
-            ><h1 class="text-center" :style="{ color: 'white' }">
+          <v-col cols="12">
+            <h1 class="text-center" :style="{ color: 'white' }">
               {{ $t("border") }}
-            </h1></v-col
-          >
+            </h1>
+          </v-col>
           <v-col cols="3">
             <v-card class="pa-10" d-flex rounded="xl" elevation="0">
-              <v-card-title
-                style="justify-content: center; display: flex"
-                class=""
-              >
+              <v-card-title style="justify-content: center; display: flex" class="">
                 <br />
               </v-card-title>
               <v-card-text>
@@ -27,33 +26,14 @@
                     <br />
                     <br />
 
-                    <v-text-field
-                      :label="$t('user')"
-                      v-model="user"
-                      rounded
-                    ></v-text-field>
-                    <v-text-field
-                      name="name"
-                      :label="$t('pw')"
-                      v-model="password"
-                      rounded
-                      id="id"
-                    ></v-text-field>
-                    <v-checkbox
-                      :label="$t('remember')"
-                      v-model="remober"
-                      color="primary"
-                      @change="checkRemember"
-                    ></v-checkbox>
-                    <Mbtn
-                      :label="$t('login')"
-                      @click="handleLogin"
-                      rounded
-                      block
-                    ></Mbtn></v-col
-                ></v-row>
-              </v-card-text> </v-card></v-col
-        ></v-row>
+                    <v-text-field :label="$t('user')" v-model="userLogin.userLogin" rounded></v-text-field>
+                    <v-text-field name="name" :label="$t('pw')" v-model="userLogin.passWord" rounded
+                      id="id"></v-text-field>
+                    <v-checkbox :label="$t('remember')" v-model="remober" color="primary"
+                      @change="checkRemember"></v-checkbox>
+                    <Mbtn :label="$t('login')" @click="handleLogin" rounded block></Mbtn>
+                  </v-col></v-row>
+              </v-card-text> </v-card></v-col></v-row>
       </v-col>
     </v-row>
 
@@ -65,27 +45,14 @@
 const { showSuccess, showError, showWarning, showConfirm } = useAlert();
 import { ref } from "vue";
 
-import { useRouter } from "#imports";
-const { login } = useAuth();
-const { setUser, loggedIn } = useUserSession();
-const { $axios } = useNuxtApp();
-
-const { locale } = useI18n();
 const password = ref(null);
 const user = ref(null);
 const remober = ref(false);
-const router = useRouter();
-const config = useRuntimeConfig();
 const loading = ref(false);
-const customerLogin = useCustomerStore();
+const userLogin = useLogin();
 onMounted(() => {
   const reme = localStorage.getItem("remember");
-  if (process.env.NODE_ENV === "development") {
-    console.log("Development mode");
-    console.log("api=============", config.public.apiBase);
-  } else {
-    console.log("Production mode");
-  }
+
   if (reme) {
     console.log("==============reme===========:", reme);
     remober.value = true;
@@ -102,24 +69,20 @@ watch(user, (val) => {
 const checkRemember = () => {
   if (remober.value == true) {
     localStorage.setItem("remember", user.value);
-    console.log(
-      "==============remember111===========:",
-      localStorage.getItem("remember")
-    );
+
   } else {
     localStorage.removeItem("remember");
   }
-
-  console.log("==============remember===========:", remober);
 };
 const handleLogin = async () => {
   loading.value = true;
-  const body = {
-    userLogin: user.value,
-    passWord: password.value,
-  };
-  await customerLogin.customerLogin(body);
-  loading.value = false;
+  const res = await userLogin.userLoginApi();
+  console.log("login============", res.status);
+  if (res.status == '00') {
+    loading.value = false;
+    navigateTo("/Dasboard");
+
+  }
 };
 </script>
 
@@ -133,11 +96,14 @@ const handleLogin = async () => {
   background-repeat: no-repeat;
   height: 100vh;
 }
+
 @keyframes bounce {
+
   0%,
   100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-20px);
   }
@@ -146,6 +112,7 @@ const handleLogin = async () => {
 .bounce {
   animation: bounce 1s infinite;
 }
+
 .custom-select .v-field {
   background-color: transparent !important;
 }

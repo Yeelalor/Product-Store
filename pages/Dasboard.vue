@@ -1,40 +1,28 @@
 <template>
   <v-container grid-list-xs>
-    <v-row
-      ><v-col cols="12" md="12" sm="12">
+    <v-row><v-col cols="12" md="12" sm="12">
         <!-- this is the tap for company waitting to approve  -->
         <v-card class="pa-1" color="primary">
           <v-card rounded="xl">
             <v-card-title primary-title> ບໍລິສັດລໍຖ້າອະນຸມັດ </v-card-title>
             <v-divider></v-divider>
             <v-card-text>
-              <v-data-table
-                :headers="headers"
-                :items="companies_list"
-                class="elevation-1"
-              >
+              <v-data-table :headers="headers" :items="companies_list" class="elevation-1">
                 <template #item.id="{ index }">
                   {{ index + 1 }}
                 </template>
                 <template #item.actions="{ item }">
                   <div class="d-flex">
-                    <v-btn color="primary" variant="outlined"
-                      ><v-icon>mdi-check-circle</v-icon>
-                      {{ $t("btn_approve") }}</v-btn
-                    >
-                    <v-btn color="red" variant="outlined" class="ml-2"
-                      ><v-icon>mdi-close-circle</v-icon>
-                      {{ $t("btn_cancel") }}</v-btn
-                    >
-                    <v-btn color="red" variant="outlined" class="ml-2"
-                      ><v-icon>mdi-eye-refresh</v-icon>
-                      {{ $t("btn_view") }}</v-btn
-                    >
+                    <v-btn color="primary" variant="outlined"><v-icon>mdi-check-circle</v-icon>
+                      {{ $t("btn_approve") }}</v-btn>
+                    <v-btn color="red" variant="outlined" class="ml-2"><v-icon>mdi-close-circle</v-icon>
+                      {{ $t("btn_cancel") }}</v-btn>
+                    <v-btn color="red" variant="outlined" class="ml-2"><v-icon>mdi-eye-refresh</v-icon>
+                      {{ $t("btn_view") }}</v-btn>
                   </div>
                 </template>
               </v-data-table>
-            </v-card-text></v-card
-          >
+            </v-card-text></v-card>
           <!-- this is the tap for production that customer ordered  -->
           <v-card rounded="xl" style="margin-top: 10px">
             <v-card-title primary-title>
@@ -42,29 +30,19 @@
             </v-card-title>
             <v-divider></v-divider>
             <v-card-text>
-              <v-data-table
-                :headers="headersProduct"
-                :items="product_list"
-                class="elevation-1"
-              >
+              <v-data-table :headers="headersProduct" :items="product_list" class="elevation-1">
                 <template #item.id="{ index }">
                   {{ index + 1 }}
                 </template>
                 <template #item.actions="{ item }">
                   <div class="d-flex">
-                    <v-btn
-                      color="primary"
-                      variant="outlined"
-                      class="ml-2"
-                      @click="viewBillDetails = true"
-                      ><v-icon>mdi-eye-refresh</v-icon>
-                      {{ $t("btn_view") }}</v-btn
-                    >
+                    <v-btn color="primary" variant="outlined" class="ml-2"
+                      @click="viewBillDetails = true"><v-icon>mdi-eye-refresh</v-icon>
+                      {{ $t("btn_view") }}</v-btn>
                   </div>
                 </template>
               </v-data-table>
-            </v-card-text></v-card
-          >
+            </v-card-text></v-card>
           <!-- this is the tap for delivery product to customer  -->
           <v-card rounded="xl" style="margin-top: 10px">
             <v-card-title primary-title>
@@ -72,57 +50,32 @@
             </v-card-title>
             <v-divider></v-divider>
             <v-card-text>
-              <v-data-table
-                :headers="headers"
-                :items="companies_list"
-                class="elevation-1"
-              >
+              <v-data-table :headers="headers" :items="companies_list" class="elevation-1">
                 <template #item.id="{ index }">
                   {{ index + 1 }}
                 </template>
               </v-data-table>
-            </v-card-text></v-card
-          >
-        </v-card></v-col
-      ></v-row
-    >
+            </v-card-text></v-card>
+        </v-card></v-col></v-row>
 
     <!-- this is for views bill details  -->
-    <v-dialog
-      v-model="viewBillDetails"
-      scrollable
-      fullscreen
-      persistent
-      :overlay="false"
-      max-width="500px"
-      transition="dialog-transition"
-    >
+    <v-dialog v-model="viewBillDetails" scrollable fullscreen persistent :overlay="false" max-width="500px"
+      transition="dialog-transition">
       <v-card class="pa-3">
-        <v-card-text
-          ><h3>{{ $t("bill_id") }}: <b>001</b></h3>
+        <v-card-text>
+          <h3>{{ $t("bill_id") }}: <b>001</b></h3>
           <h3>{{ $t("date") }}: <b>30-09-2025</b></h3>
           <h3>{{ $t("order_store_name") }}: <b>HHN & NV store</b></h3>
           <h3>{{ $t("phone") }}: <b>020 99801389</b></h3>
-          <v-data-table
-            :headers="headersBillDetail"
-            :items="billDetails_list"
-            :items-per-page="billDetails_list.length"
-            class="elevation-1"
-            hide-default-footer
-          >
+          <v-data-table :headers="headersBillDetail" :items="billDetails_list" :items-per-page="billDetails_list.length"
+            class="elevation-1" hide-default-footer>
             <template #item.id="{ index }">
               {{ index + 1 }}
             </template>
           </v-data-table>
         </v-card-text>
-        <v-card-actions
-          ><v-btn
-            color="grey"
-            rounded="xl"
-            variant="outlined"
-            @click="viewBillDetails = false"
-            >{{ $t("btn_close") }}</v-btn
-          >
+        <v-card-actions><v-btn color="grey" rounded="xl" variant="outlined" @click="viewBillDetails = false">{{
+          $t("btn_close") }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -133,6 +86,12 @@
 import { ref } from "vue";
 const { t } = useI18n();
 const viewBillDetails = ref(false);
+const callUserLogin = useLogin();
+const user = computed(() => callUserLogin.customerUserData);
+onMounted(() => {
+  console.log("user data dashboard========", user.value);
+
+});
 const headersBillDetail = ref([
   { title: "#", key: "id", align: "start" },
   // { title: t("bill_id"), key: "bill_id", align: "start" },
