@@ -1,11 +1,13 @@
 import { defineStore } from "pinia";
 export const useLogin = defineStore("userLogin", {
+
   state: () => ({
     userLogin: null,
     passWord: null,
     customerUserData: [],
   }),
   actions: {
+
     allApi() {
       const { mainApi } = useApi();
       return mainApi;
@@ -24,5 +26,8 @@ export const useLogin = defineStore("userLogin", {
         this.customerUserData = [];
       }
     },
+
+
+
   }
 });
