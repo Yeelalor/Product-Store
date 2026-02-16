@@ -67,5 +67,7 @@
   "customer_name": "ຊື່ລູກຄ້າ",
   "customer_store_name": "ຊື່ຮ້ານ",
   "customer_street": "ຮ່ອມທາງ",
-  "customer_id_card": "ລະຫັດບັດ/passport/ສໍາມະໂນຄົວ"
+  "customer_id_card": "ລະຫັດບັດ/passport/ສໍາມະໂນຄົວ",
+  "user_or_pw": "ຊື່ ແລະ ລະຫັດ ຂອງທ່ານບໍ່ຖືກຕ້ອງ, ກະລຸນາລອງໃໝ່ !",
+  "please_input": "ກະລຸນາປ້ອນຊື່ຜູ້ໃຊ້ ຫຼື ລະຫັດຜ່ານ"
 }

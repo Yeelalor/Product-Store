@@ -67,5 +67,7 @@
   "customer_name": "Tên khách hàng",
   "customer_store_name": "Tên cửa hàng",
   "customer_street": "đường phố",
-  "customer_id_card": "CMND/hộ chiếu"
+  "customer_id_card": "CMND/hộ chiếu",
+  "user_or_pw": "Tên người dùng hoặc mật khẩu của bạn không chính xác, vui lòng thử lại!",
+  "please_input": "Vui lòng nhập tên người dùng hoặc mật khẩu"
 }

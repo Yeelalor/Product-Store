@@ -29,8 +29,7 @@
                     <v-text-field :label="$t('user')" v-model="userLogin.userLogin" rounded></v-text-field>
                     <v-text-field name="name" :label="$t('pw')" v-model="userLogin.passWord" rounded
                       id="id"></v-text-field>
-                    <v-checkbox :label="$t('remember')" v-model="remober" color="primary"
-                      @change="checkRemember"></v-checkbox>
+                    <v-checkbox :label="$t('remember')" v-model="remober" color="primary"></v-checkbox>
                     <Mbtn :label="$t('login')" @click="handleLogin" rounded block></Mbtn>
                   </v-col></v-row>
               </v-card-text> </v-card></v-col></v-row>
@@ -41,48 +40,25 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const { showSuccess, showError, showWarning, showConfirm } = useAlert();
 import { ref } from "vue";
-
-const password = ref(null);
-const user = ref(null);
+definePageMeta({
+  layout: false,
+})
 const remober = ref(false);
 const loading = ref(false);
 const userLogin = useLogin();
 onMounted(() => {
   const reme = localStorage.getItem("remember");
 
-  if (reme) {
-    console.log("==============reme===========:", reme);
-    remober.value = true;
-    user.value = reme;
-  }
-});
-watch([user, password], ([newUser, newPass]) => {
-  console.log("User changed:", newUser);
-  console.log("Password changed:", newPass);
-});
-watch(user, (val) => {
-  console.log("user changed:", val);
-});
-const checkRemember = () => {
-  if (remober.value == true) {
-    localStorage.setItem("remember", user.value);
 
-  } else {
-    localStorage.removeItem("remember");
-  }
-};
-const handleLogin = async () => {
-  loading.value = true;
-  const res = await userLogin.userLoginApi();
-  console.log("login============", res.status);
-  if (res.status == '00') {
-    loading.value = false;
-    navigateTo("/Dasboard");
+});
 
-  }
+const handleLogin = () => {
+  // loading.value = true;
+  const res = userLogin.userLoginApi();
+
 };
 </script>
 

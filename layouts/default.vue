@@ -1,43 +1,44 @@
 <template>
 
   <VApp>
-   
-    <VAppBar class="bg-primary">
-      <v-app-bar-nav-icon
-        variant="text"
-        @click.stop="drawer = !drawer"
-        color="white"
-      ></v-app-bar-nav-icon>
 
+    <VAppBar class="bg-primary" v-if="user != null || user != ''">
+      <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer" color="white"></v-app-bar-nav-icon>
+      <h3>user: {{ user }}</h3>
 
-      <Mbtn
-        color="white"
-        icon="mdi-logout"
-        label="Logout"
-        @click="handleLogout"
-      ></Mbtn>
+      <Mbtn color="white" icon="mdi-logout" label="Logout" @click="handleLogout"></Mbtn>
     </VAppBar>
 
-      <VMain class="d-flex" style="min-height: 100vh">
-  
+    <VMain class="d-flex" style="min-height: 100vh">
+
       <slot />
     </VMain>
   </VApp>
- 
+
 </template>
 <script setup>
 import { onMounted, ref } from "vue";
 import { useI18n } from "#imports";
-
+definePageMeta({
+  layout: "auth",
+});
 const drawer = ref(true);
 
 import { watch } from "vue";
 
 const { locale, setLocale } = useI18n();
+const user = computed(() => useLogin().userLogin);
 onMounted(() => {
   const reme = localStorage.getItem("remember");
+  console.log("user local storage=====================", user.value);
   // check language====================
+  // console.log("user local storage=====================", localStorage.getItem("user"));
   const saved = localStorage.getItem("lang");
+  if (user.value != null && user.value != '') {
+    console.log("user local storage=====================", localStorage.getItem("user"));
+    user.value = localStorage.getItem("user");
+  }
+
 
   if (saved) {
     setLocale(saved);
@@ -103,8 +104,10 @@ useHead({
   background: radial-gradient(ellipse at center, #1572dd, #5db7f3);
   color: white;
 }
+
 .custom-scroll {
-  max-height: 100%; /* or 100% if drawer is scrollable */
+  max-height: 100%;
+  /* or 100% if drawer is scrollable */
   overflow-y: auto;
 }
 

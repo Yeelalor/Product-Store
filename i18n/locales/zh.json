@@ -66,5 +66,7 @@
   "customer_info": "客户信息",
   "customer_name": "客户名称",
   "customer_store_name": "店铺名称",
-  "customer_id_card": "身份证/护照"
+  "customer_id_card": "身份证/护照",
+  "user_or_pw": "您的用户名或密码不正确，请重试！",
+  "please_input": "请输入用户名或密码"
 }
