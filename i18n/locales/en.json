@@ -67,5 +67,11 @@
   "customer_name": "Customer Name",
   "customer_store_name": "Store Name",
   "customer_street": "Street",
-  "customer_id_card": "Id Card/passport"
+  "customer_id_card": "Id Card/passport",
+  "user_or_pw": "Your username or password is incorrect, please try again!",
+  "please_input": "please input your username and password",
+  "manage_data": "Manage Data",
+  "product_list": "List of Products",
+  "home": "Home",
+  "logout": "Logout"
 }
