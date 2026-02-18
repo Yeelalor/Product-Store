@@ -29,13 +29,8 @@
                     <v-text-field :label="$t('user')" v-model="userLogin.userLogin" rounded></v-text-field>
                     <v-text-field name="name" :label="$t('pw')" v-model="userLogin.passWord" rounded
                       id="id"></v-text-field>
-<<<<<<< HEAD
                     <v-checkbox :label="$t('remember')" v-model="userLogin.remember" @click="userLogin.checkRemember()"
                       color="primary"></v-checkbox>
-=======
-                    <v-checkbox :label="$t('remember')" v-model="remober" color="primary"
-                      @change="checkRemember"></v-checkbox>
->>>>>>> refs/remotes/origin/main
                     <Mbtn :label="$t('login')" @click="handleLogin" rounded block></Mbtn>
                   </v-col></v-row>
               </v-card-text> </v-card></v-col></v-row>
@@ -53,10 +48,8 @@ definePageMeta({
   layout: false,
 })
 
-<<<<<<< HEAD
-// const user = computed(() => useLogin().userLogin);
-const loading = ref(false);
-const userLogin = useLogin();
+
+
 onMounted(() => {
   const remember = localStorage.getItem("remember");
   if (remember != null && remember != '') {
@@ -67,10 +60,8 @@ onMounted(() => {
   }
 });
 
-const handleLogin = () => {
-  const res = userLogin.userLoginApi();
 
-=======
+
 const password = ref(null);
 const user = ref(null);
 const remober = ref(false);
@@ -109,8 +100,9 @@ const handleLogin = async () => {
     navigateTo("/Dasboard");
 
   }
->>>>>>> refs/remotes/origin/main
+
 };
+
 </script>
 
 <style scoped>

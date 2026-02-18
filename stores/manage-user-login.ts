@@ -14,7 +14,6 @@ export const useLogin = defineStore("userLogin", {
       const { mainApi } = useApi();
       return mainApi;
     },
-<<<<<<< HEAD
     checkRemember() {
       this.remember = !this.remember;
       if (!this.remember) {
@@ -41,41 +40,33 @@ export const useLogin = defineStore("userLogin", {
           title: "ຜິດພາດ",
           text: useI18n().t("please_input"),
         });
+        return;
       }
       this.loading = true;
-=======
-    async userLoginApi() {
->>>>>>> refs/remotes/origin/main
       var body = {
         "userLogin": this.userLogin,
         "passWord": this.passWord
       }
       const res = await this.allApi().post("getCustomerByUserAndPass", body);
-<<<<<<< HEAD
       this.loading = false;
       if (res.status === 200) {
         localStorage.setItem("user", this.userLogin == null ? "" : this.userLogin);
         console.log("user=====================", this.userLogin);
         console.log("user local storage=====================", localStorage.getItem("user"));
+        this.customerUserData = res.data;
         navigateTo("/Dasboard");
+        return this.customerUserData;
       } else {
         CallSwal({
           icon: "warning",
           title: "ຜິດພາດ",
           text: useI18n().t("user_or_pw"),
         });
-=======
-      if (res.status === 200) {
-        this.customerUserData = res.data;
-        return this.customerUserData;
-      } else {
-
         this.customerUserData = [];
->>>>>>> refs/remotes/origin/main
       }
     },
 
 
 
-  }
+  },
 });
