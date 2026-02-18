@@ -1,12 +1,71 @@
 <template>
-
   <VApp>
 
-    <VAppBar class="bg-primary" v-if="user != null || user != ''">
+    <VAppBar class="bg-primary">
       <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer" color="white"></v-app-bar-nav-icon>
-      <h3>user: {{ user }}</h3>
+      <v-btn elevation="0" variant="rounded" :to="'/'" color="white"><v-icon>mdi-home </v-icon><b>{{ $t('home')
+      }}</b></v-btn>
 
-      <Mbtn color="white" icon="mdi-logout" label="Logout" @click="handleLogout"></Mbtn>
+      <v-menu :close-on-content-click="false">
+        <template #activator="{ props }">
+          <v-btn color="white" variant="text" v-bind="props" append-icon="mdi-arrow-down-drop-circle">
+            {{ $t("manage_data") }}
+          </v-btn>
+        </template>
+
+        <v-list density="comfortable" nav>
+
+          <v-list-group value="Admin">
+
+            <template #activator="{ props }">
+              <v-list-item v-bind="props" :title="$t('product_info')" />
+            </template>
+
+            <v-list-item class="px-4 py-2" append-icon="mdi-arrow-right" variant="plain" :title="$t('product_info')"
+              to="/Products/Products" link />
+            <v-divider></v-divider>
+            <v-list-item append-icon="mdi-arrow-right" variant="plain" :title="$t('product_type')"
+              to="/Products/ProductType" link />
+
+          </v-list-group>
+          <v-divider></v-divider>
+          <v-list-group value="company">
+
+            <template #activator="{ props }">
+              <v-list-item v-bind="props" :title="$t('conpany_info')" />
+            </template>
+
+            <v-list-item append-icon="mdi-chevron-right" variant="plain" :title="$t('conpany_info')"
+              to="/Companies/CompaniesPage" link />
+            <v-divider></v-divider>
+            <v-list-item append-icon="mdi-chevron-right" variant="plain" :title="$t('branch_info')" to="/Branch/Branch"
+              link />
+
+          </v-list-group>
+          <v-divider></v-divider>
+          <v-list-item append-icon="mdi-chevron-right" variant="plain" :title="$t('customer_info')"
+            to="/Customer/Customer" link />
+          <v-divider></v-divider>
+          <v-list-item append-icon="mdi-chevron-right" variant="plain" :title="$t('product_info') + ' - ' + $t('price')"
+            to="/Price/Price" link />
+          <v-divider></v-divider>
+          <v-list-item append-icon="mdi-chevron-right" variant="plain" :title="$t('exchange_rate')"
+            to="/Exchange/ExchangeRate" link />
+        </v-list>
+      </v-menu>
+      <v-menu :close-on-content-click="false">
+        <template #activator="{ props }">
+          <v-btn color="white" variant="text" v-bind="props" append-icon="mdi-arrow-down-drop-circle"
+            :to="'/Products/ProductDetails'">
+            {{ $t("product_list") }}
+          </v-btn>
+        </template>
+
+
+      </v-menu>
+      <v-spacer></v-spacer>
+      <h4>{{ $t('user') }}: {{ user }}</h4>
+      <Mbtn color="white" icon="mdi-logout" :label="$t('logout')" @click="handleLogout"></Mbtn>
     </VAppBar>
 
     <VMain class="d-flex" style="min-height: 100vh">
@@ -23,23 +82,15 @@ definePageMeta({
   layout: "auth",
 });
 const drawer = ref(true);
-
-import { watch } from "vue";
-
 const { locale, setLocale } = useI18n();
 const user = computed(() => useLogin().userLogin);
 onMounted(() => {
-  const reme = localStorage.getItem("remember");
-  console.log("user local storage=====================", user.value);
-  // check language====================
-  // console.log("user local storage=====================", localStorage.getItem("user"));
-  const saved = localStorage.getItem("lang");
-  if (user.value != null && user.value != '') {
-    console.log("user local storage=====================", localStorage.getItem("user"));
-    user.value = localStorage.getItem("user");
+
+  if (user.value == null || user.value == '') {
+    useLogin().userLogin = localStorage.getItem("user");
   }
 
-
+  const saved = localStorage.getItem("lang");
   if (saved) {
     setLocale(saved);
     console.log("==================lang=============:", saved);
@@ -51,7 +102,7 @@ onMounted(() => {
 });
 
 const handleLogout = async () => {
-  await navigateTo("/login"); // clears everything in the browser
+  await useLogin().handleLogout();
 };
 
 const fontLinks = {
@@ -62,24 +113,7 @@ const fontLinks = {
   vi: "https://fonts.googleapis.com/css2?family=Noto+Serif+Ottoman+Siyaq&display=swap",
 };
 
-watch(
-  locale,
-  (newLocale) => {
-    useHead({
-      link: [
-        {
-          rel: "stylesheet",
-          href: fontLinks[newLocale] || fontLinks.en,
-        },
-      ],
-      htmlAttrs: {
-        lang: newLocale,
-        style: `font-size:20px`,
-      },
-    });
-  },
-  { immediate: true }
-);
+
 
 useHead({
   link: [

@@ -68,5 +68,9 @@
   "customer_store_name": "店铺名称",
   "customer_id_card": "身份证/护照",
   "user_or_pw": "您的用户名或密码不正确，请重试！",
-  "please_input": "请输入用户名或密码"
+  "please_input": "请输入用户名或密码",
+  "manage_data": "管理数据",
+  "product_list": "产品列表",
+  "home": "主页",
+  "logout": "退出登录"
 }

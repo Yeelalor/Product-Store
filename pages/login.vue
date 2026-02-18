@@ -29,7 +29,8 @@
                     <v-text-field :label="$t('user')" v-model="userLogin.userLogin" rounded></v-text-field>
                     <v-text-field name="name" :label="$t('pw')" v-model="userLogin.passWord" rounded
                       id="id"></v-text-field>
-                    <v-checkbox :label="$t('remember')" v-model="remober" color="primary"></v-checkbox>
+                    <v-checkbox :label="$t('remember')" v-model="userLogin.remember" @click="userLogin.checkRemember()"
+                      color="primary"></v-checkbox>
                     <Mbtn :label="$t('login')" @click="handleLogin" rounded block></Mbtn>
                   </v-col></v-row>
               </v-card-text> </v-card></v-col></v-row>
@@ -40,23 +41,27 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 const { showSuccess, showError, showWarning, showConfirm } = useAlert();
 import { ref } from "vue";
 definePageMeta({
   layout: false,
 })
-const remober = ref(false);
+
+// const user = computed(() => useLogin().userLogin);
 const loading = ref(false);
 const userLogin = useLogin();
 onMounted(() => {
-  const reme = localStorage.getItem("remember");
-
-
+  const remember = localStorage.getItem("remember");
+  if (remember != null && remember != '') {
+    userLogin.userLogin = remember;
+    userLogin.remember = true;
+  } else {
+    userLogin.remember = false;
+  }
 });
 
 const handleLogin = () => {
-  // loading.value = true;
   const res = userLogin.userLoginApi();
 
 };

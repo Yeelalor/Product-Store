@@ -9,97 +9,42 @@
         <v-form @submit.prevent v-model="isValid" ref="form">
           <v-card-text>
             <div class="d-flex align-center">
-              <b style="white-space: nowrap; margin-right: 8px"
-                >{{ $t("info") }}{{ $t("exchange_rate") }}</b
-              >
+              <b style="white-space: nowrap; margin-right: 8px">{{ $t("info") }}{{ $t("exchange_rate") }}</b>
               <v-divider class="flex-grow-1"></v-divider>
             </div>
-            <v-card
-              elevation="0"
-              variant="outlined"
-              class="pa-5"
-              style="
+            <v-card elevation="0" variant="outlined" class="pa-5" style="
                 border: 2px solid green;
                 border-radius: 12px;
                 margin-top: 5px;
-              "
-            >
-              <v-row
-                ><v-col cols="3">
-                  <v-autocomplete
-                    v-model="branch"
-                    :items="branches"
-                    item-value="id"
-                    item-title="branchName"
-                    :label="$t('select') + $t('branch_name')"
-                    variant="outlined"
-                    rounded
-                    :rules="rules"
-                    clearable
-                  ></v-autocomplete>
+              ">
+              <v-row><v-col cols="3">
+                  <v-autocomplete v-model="branch" :items="branches" item-value="id" item-title="branchName"
+                    :label="$t('select') + $t('branch_name')" variant="outlined" rounded :rules="rules"
+                    clearable></v-autocomplete>
                 </v-col>
                 <v-col cols="3">
-                  <v-text-field
-                    rounded="xl"
-                    label="KIP"
-                    prepend-inner-icon="mdi-numeric-1-box"
-                    clearable
-                    v-model="lak_rate"
-                    :rules="rules"
-                    @input="lak_rate = formatCurrency(lak_rate)"
-                  ></v-text-field
-                ></v-col>
+                  <v-text-field rounded="xl" label="KIP" prepend-inner-icon="mdi-numeric-1-box" clearable
+                    v-model="lak_rate" :rules="rules"
+                    @input="lak_rate = formatCurrency(lak_rate)"></v-text-field></v-col>
                 <v-col cols="3">
-                  <v-text-field
-                    rounded="xl"
-                    label="THB"
-                    prepend-inner-icon="mdi-currency-thb"
-                    clearable
-                    v-model="thb_rate"
-                    :rules="rules"
-                    @input="thb_rate = formatCurrency(thb_rate)"
-                  ></v-text-field
-                ></v-col>
+                  <v-text-field rounded="xl" label="THB" prepend-inner-icon="mdi-currency-thb" clearable
+                    v-model="thb_rate" :rules="rules"
+                    @input="thb_rate = formatCurrency(thb_rate)"></v-text-field></v-col>
                 <v-col cols="3">
-                  <v-text-field
-                    rounded="xl"
-                    label="USD"
-                    prepend-inner-icon="mdi-currency-usd"
-                    clearable
-                    v-model="usd_rate"
-                    @input="usd_rate = formatCurrency(usd_rate)"
-                    :rules="rules"
-                  ></v-text-field
-                ></v-col>
+                  <v-text-field rounded="xl" label="USD" prepend-inner-icon="mdi-currency-usd" clearable
+                    v-model="usd_rate" @input="usd_rate = formatCurrency(usd_rate)"
+                    :rules="rules"></v-text-field></v-col>
               </v-row>
             </v-card>
           </v-card-text>
           <v-card-actions>
-            <v-row
-              ><v-col cols="12" md="6" sm="6">
-                <v-btn
-                  color="primary"
-                  rounded="xl"
-                  variant="outlined"
-                  type="submit"
-                  @click="insertExchange()"
-                  ><v-icon class="mr-4">mdi-content-save-all</v-icon
-                  >{{ $t("save") }}</v-btn
-                ></v-col
-              ></v-row
-            >
-            <br /><br /> </v-card-actions
-        ></v-form>
+            <v-row><v-col cols="12" md="6" sm="6">
+                <v-btn color="primary" rounded="xl" variant="outlined" type="submit" @click="insertExchange()"><v-icon
+                    class="mr-4">mdi-content-save-all</v-icon>{{ $t("save") }}</v-btn></v-col></v-row>
+            <br /><br /> </v-card-actions></v-form>
       </v-card>
-      <v-data-table
-        :headers="headers"
-        :items="dataShow"
-        hide-actions
-        class="elevation-1"
-        pagination.sync="pagination"
-        item-key="id"
-        :search="search"
-      >
+      <v-data-table :headers="headers" :items="dataShow" hide-actions class="elevation-1" pagination.sync="pagination"
+        item-key="id" :search="search">
         <template #item.id="{ index, item }">
           {{ index + 1 }}
         </template>

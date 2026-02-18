@@ -69,5 +69,9 @@
   "customer_street": "đường phố",
   "customer_id_card": "CMND/hộ chiếu",
   "user_or_pw": "Tên người dùng hoặc mật khẩu của bạn không chính xác, vui lòng thử lại!",
-  "please_input": "Vui lòng nhập tên người dùng hoặc mật khẩu"
+  "please_input": "Vui lòng nhập tên người dùng hoặc mật khẩu",
+  "manage_data": "quản lý dữ liệu",
+  "product_list": "Liệt kê sản phẩm",
+  "home": "Trang chủ",
+  "logout": "Đăng xuất"
 }

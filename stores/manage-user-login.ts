@@ -6,12 +6,32 @@ export const useLogin = defineStore("userLogin", {
     passWord: null,
     customerUserData: [],
     loading: false,
+    remember: false,
   }),
   actions: {
 
     allApi() {
       const { mainApi } = useApi();
       return mainApi;
+    },
+    checkRemember() {
+      this.remember = !this.remember;
+      if (!this.remember) {
+        console.log("true=============", this.remember);
+
+        localStorage.removeItem('remember');
+      } else {
+
+        console.log("false=============", this.remember);
+        if (this.userLogin != null) {
+          console.log("false111=============", this.remember);
+          localStorage.setItem('remember', this.userLogin);
+        }
+      }
+    },
+    async handleLogout() {
+      localStorage.removeItem('user')
+      await navigateTo("/login");
     },
     async userLoginApi() {
       if (this.userLogin == null || this.passWord == null) {
