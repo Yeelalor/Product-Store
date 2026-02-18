@@ -7,6 +7,17 @@ export const useAlert = () => {
       title: "Success",
       confirmButtonText: "OK",
       text: message,
+      heightAuto: false,
+      didOpen: () => {
+        const container = document.querySelector(
+          ".swal2-container"
+        ) as HTMLElement | null;
+        const popup = document.querySelector(
+          ".swal2-popup"
+        ) as HTMLElement | null;
+        if (container) container.style.zIndex = "9999999";
+        if (popup) popup.style.zIndex = "10000000";
+      },
       customClass: {
         confirmButton: "my-confirm-button",
       },
@@ -19,7 +30,17 @@ export const useAlert = () => {
       title: "Error",
       showCancelButton: true,
       text: message,
-
+      heightAuto: false,
+      didOpen: () => {
+        const container = document.querySelector(
+          ".swal2-container"
+        ) as HTMLElement | null;
+        const popup = document.querySelector(
+          ".swal2-popup"
+        ) as HTMLElement | null;
+        if (container) container.style.zIndex = "9999999";
+        if (popup) popup.style.zIndex = "10000000";
+      },
       customClass: {
         cancelButton: "my-cancel-button",
       },
@@ -27,14 +48,24 @@ export const useAlert = () => {
   };
   const showWarning = (message: string) => {
     Swal.fire({
-      icon: "error",
-      title: "Error",
+      icon: "warning",
+      title: "Warning",
       confirmButtonText: "OK",
       text: message,
       width: 500,
       heightAuto: false,
+      didOpen: () => {
+        const container = document.querySelector(
+          ".swal2-container"
+        ) as HTMLElement | null;
+        const popup = document.querySelector(
+          ".swal2-popup"
+        ) as HTMLElement | null;
+        if (container) container.style.zIndex = "9999999";
+        if (popup) popup.style.zIndex = "10000000";
+      },
       customClass: {
-        confirmButton: "my-confirm-button",
+        confirmButton: "my-warning-button",
       },
     });
   };

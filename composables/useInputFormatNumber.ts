@@ -13,7 +13,7 @@ export const useInputFormatNumber = () => {
     if (!cleanValue) return "";
 
     // Split integer and decimal parts
-    const [intPart, decimalPart] = cleanValue.split(".");
+    const [intPart = "", decimalPart] = cleanValue.split(".");
 
     // Add commas to integer part
     const withCommas = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");

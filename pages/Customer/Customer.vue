@@ -1,7 +1,5 @@
 <template>
-  <v-row class="pa-5"
-    ><v-col cols="12" md="12" sm="6"
-      ><v-card class="pa-5" rounded="xl" width="100%">
+  <v-row class="pa-5"><v-col cols="12" md="12" sm="6"><v-card class="pa-5" rounded="xl" width="100%">
         <v-card rounded="xl" elevation="2">
           <v-card-title primary-title class="d-flex bg-primary">
             {{ $t("customer_info") }}
@@ -12,70 +10,32 @@
               <div class="d-flex align-center">
                 <b style="white-space: nowrap; margin-right: 8px">{{
                   $t("customer_info")
-                }}</b>
+                  }}</b>
                 <v-divider class="flex-grow-1"></v-divider>
               </div>
-              <v-card
-                rounded="xl"
-                class="pa-5 mt-1"
-                elevation="0"
-                style="border: 1px solid green; border-radius: 12px"
-              >
+              <v-card rounded="xl" class="pa-5 mt-1" elevation="0" style="border: 1px solid green; border-radius: 12px">
                 <v-row>
                   <v-col cols="3">
-                    <v-text-field
-                      rounded="xl"
-                      :label="$t('customer_store_name')"
-                      prepend-inner-icon="mdi-store-marker-outline"
-                      clearable
-                      v-model="request.storeName"
-                    ></v-text-field
-                  ></v-col>
-                  <v-col cols="3"
-                    ><v-text-field
-                      rounded="xl"
-                      :label="$t('customer_name')"
-                      prepend-inner-icon="mdi-account-tie"
-                      clearable
-                      v-model="request.custName"
-                      :rules="rules"
-                    ></v-text-field>
+                    <v-text-field rounded="xl" :label="$t('customer_store_name')"
+                      prepend-inner-icon="mdi-store-marker-outline" clearable
+                      v-model="request.storeName"></v-text-field></v-col>
+                  <v-col cols="3"><v-text-field rounded="xl" :label="$t('customer_name')"
+                      prepend-inner-icon="mdi-account-tie" clearable v-model="request.custName"
+                      :rules="rules"></v-text-field>
                   </v-col>
-                  <v-col cols="3"
-                    ><v-text-field
-                      rounded="xl"
-                      :label="$t('customer_id_card')"
-                      prepend-inner-icon="mdi-card-account-details"
-                      clearable
-                      v-model="request.idCard"
-                      :rules="rules"
-                    ></v-text-field>
+                  <v-col cols="3"><v-text-field rounded="xl" :label="$t('customer_id_card')"
+                      prepend-inner-icon="mdi-card-account-details" clearable v-model="request.idCard"
+                      :rules="rules"></v-text-field>
                   </v-col>
                   <v-col cols="3">
-                    <v-text-field
-                      rounded="xl"
-                      :label="$t('login_name')"
-                      prepend-inner-icon="mdi-account-group"
-                      clearable
-                      v-model="request.userLogin"
-                      @input="
+                    <v-text-field rounded="xl" :label="$t('login_name')" prepend-inner-icon="mdi-account-group"
+                      clearable v-model="request.userLogin" @input="
                         request.userLogin = request.userLogin.toUpperCase()
-                      "
-                      :rules="rules"
-                    ></v-text-field
-                  ></v-col>
+                        " :rules="rules"></v-text-field></v-col>
                   <v-col cols="3">
-                    <v-text-field
-                      rounded="xl"
-                      :label="$t('phone')"
-                      prepend-inner-icon="mdi-phone"
-                      clearable
-                      type="number"
-                      v-model="request.phone"
-                      placeholder="020xxxx xxxx"
-                      :rules="rules"
-                    ></v-text-field
-                  ></v-col>
+                    <v-text-field rounded="xl" :label="$t('phone')" prepend-inner-icon="mdi-phone" clearable
+                      type="number" v-model="request.phone" placeholder="020xxxx xxxx"
+                      :rules="rules"></v-text-field></v-col>
                 </v-row>
               </v-card>
               <!-- tap2 -->
@@ -83,134 +43,60 @@
               <div class="d-flex align-center">
                 <b style="white-space: nowrap; margin-right: 8px">{{
                   $t("input_info")
-                }}</b>
+                  }}</b>
                 <v-divider class="flex-grow-1"></v-divider>
               </div>
-              <v-card
-                rounded="xl"
-                class="pa-5 mt-1"
-                elevation="0"
-                style="border: 1px solid green; border-radius: 12px"
-              >
+              <v-card rounded="xl" class="pa-5 mt-1" elevation="0" style="border: 1px solid green; border-radius: 12px">
                 <v-row>
                   <v-col cols="3">
-                    <v-autocomplete
-                      v-model="request.pro"
-                      :items="provinces"
-                      item-value="id"
-                      item-title="proName"
-                      :label="$t('select') + $t('province')"
-                      variant="outlined"
-                      rounded
-                      :rules="rules"
-                      clearable
-                      @update:model-value="onSelectProvince(request.pro)"
-                      return-object
-                    ></v-autocomplete>
+                    <v-autocomplete v-model="request.pro" :items="provinces" item-value="id" item-title="proName"
+                      :label="$t('select') + $t('province')" variant="outlined" rounded :rules="rules" clearable
+                      @update:model-value="onSelectProvince(request.pro)" return-object></v-autocomplete>
                   </v-col>
                   <v-col cols="3">
-                    <v-autocomplete
-                      v-model="request.dist"
-                      :items="districts"
-                      item-value="id"
-                      item-title="disName"
-                      :label="$t('select') + $t('district')"
-                      variant="outlined"
-                      rounded
-                      :rules="rules"
-                      return-object
-                      clearable
-                    ></v-autocomplete>
+                    <v-autocomplete v-model="request.dist" :items="districts" item-value="id" item-title="disName"
+                      :label="$t('select') + $t('district')" variant="outlined" rounded :rules="rules" return-object
+                      clearable></v-autocomplete>
                   </v-col>
                   <v-col cols="3">
-                    <v-text-field
-                      rounded="xl"
-                      :label="$t('village')"
-                      prepend-inner-icon="mdi-home-sound-in-outline"
-                      clearable
-                      v-model="request.village"
-                      :rules="rules"
-                    ></v-text-field
-                  ></v-col>
+                    <v-text-field rounded="xl" :label="$t('village')" prepend-inner-icon="mdi-home-sound-in-outline"
+                      clearable v-model="request.village" :rules="rules"></v-text-field></v-col>
                   <v-col cols="3">
-                    <v-text-field
-                      rounded="xl"
-                      :label="$t('customer_street')"
-                      prepend-inner-icon="mdi-arrow-left-right-bold-outline"
-                      clearable
-                      v-model="request.street"
-                      :rules="rules"
-                    ></v-text-field
-                  ></v-col>
+                    <v-text-field rounded="xl" :label="$t('customer_street')"
+                      prepend-inner-icon="mdi-arrow-left-right-bold-outline" clearable v-model="request.street"
+                      :rules="rules"></v-text-field></v-col>
 
                   <v-col cols="3">
-                    <v-text-field
-                      rounded="xl"
-                      :label="$t('latLong')"
-                      prepend-inner-icon="mdi-map-marker-radius"
-                      clearable
-                      v-model="request.latLong"
-                    ></v-text-field
-                  ></v-col>
+                    <v-text-field rounded="xl" :label="$t('latLong')" prepend-inner-icon="mdi-map-marker-radius"
+                      clearable v-model="request.latLong"></v-text-field></v-col>
                 </v-row>
               </v-card>
             </v-card-text>
             <v-card-actions>
-              <v-btn
-                v-if="request.id == null"
-                color="primary"
-                rounded="xl"
-                variant="outlined"
-                type="submit"
-                @click="insert()"
-                ><v-icon class="mr-4">mdi-content-save-all</v-icon
-                >{{ $t("save") }}</v-btn
-              >
-              <v-btn
-                v-else
-                color="blue"
-                rounded="xl"
-                variant="outlined"
-                type="submit"
-                @click="updateData()"
-                ><v-icon class="mr-4">mdi-content-save-all</v-icon
-                >{{ $t("btn_edit") }}</v-btn
-              >
-            </v-card-actions></v-form
-          >
+              <v-btn v-if="request.id == null" color="primary" rounded="xl" variant="outlined" type="submit"
+                @click="insert()"><v-icon class="mr-4">mdi-content-save-all</v-icon>{{ $t("save") }}</v-btn>
+              <v-btn v-else color="blue" rounded="xl" variant="outlined" type="submit" @click="updateData()"><v-icon
+                  class="mr-4">mdi-content-save-all</v-icon>{{ $t("btn_edit") }}</v-btn>
+            </v-card-actions></v-form>
         </v-card>
         <br />
         <v-card rounded="xl">
           <v-card-text>
-            <v-data-table
-              :headers="headers"
-              :items="branchDAta"
-              :search="search"
-              hide-actions
-              class="elevation-1"
-              pagination.sync="pagination"
-              item-key="id"
-            >
+            <v-data-table :headers="headers" :items="branchDAta" :search="search" hide-actions class="elevation-1"
+              pagination.sync="pagination" item-key="id">
               <template #item.id="{ index, item }">
                 {{ index + 1 }}
               </template>
               <template #item.actions="{ item }">
                 <div class="d-flex">
-                  <v-btn
-                    color="blue"
-                    rounded="xl"
-                    variant="outlined"
-                    @click="SelectItem(item)"
-                    ><v-icon>mdi-pen</v-icon>{{ $t("btn_edit") }}</v-btn
-                  >
+                  <v-btn color="blue" rounded="xl" variant="outlined"
+                    @click="SelectItem(item)"><v-icon>mdi-pen</v-icon>{{ $t("btn_edit") }}</v-btn>
                 </div>
               </template>
             </v-data-table>
           </v-card-text>
         </v-card>
-      </v-card></v-col
-    ></v-row
-  >
+      </v-card></v-col></v-row>
   <!-- // loading -->
   <MLoading v-model="loading"></MLoading>
 </template>
