@@ -4,7 +4,7 @@
     <VAppBar class="bg-primary">
       <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer" color="white"></v-app-bar-nav-icon>
       <v-btn elevation="0" variant="rounded" :to="'/'" color="white"><v-icon>mdi-home </v-icon><b>{{ $t('home')
-      }}</b></v-btn>
+          }}</b></v-btn>
 
       <v-menu :close-on-content-click="false">
         <template #activator="{ props }">
@@ -60,8 +60,16 @@
             {{ $t("product_list") }}
           </v-btn>
         </template>
-
-
+        <v-list density="comfortable" nav>
+          <v-list-item append-icon="mdi-chevron-right" variant="plain" :title="$t('product_list') + ' admin'"
+            to="/Customer/Customer-list-product" link />
+          <v-divider></v-divider>
+          <v-list-item append-icon="mdi-chevron-right" variant="plain" :title="$t('product_list') + ' saller'"
+            to="/Price/Price" link />
+          <v-divider></v-divider>
+          <v-list-item append-icon="mdi-chevron-right" variant="plain" :title="$t('product_list') + ' buyer'"
+            to="/Exchange/ExchangeRate" link />
+        </v-list>
       </v-menu>
       <v-spacer></v-spacer>
       <h4>{{ $t('user') }}: {{ user }}</h4>

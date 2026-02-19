@@ -73,5 +73,8 @@
   "manage_data": "Manage Data",
   "product_list": "List of Products",
   "home": "Home",
-  "logout": "Logout"
+  "logout": "Logout",
+  "select_type_view": "Select Type view details",
+  "view_list": "View List",
+  "view_grid": "View Grid"
 }

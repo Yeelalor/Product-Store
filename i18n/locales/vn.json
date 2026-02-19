@@ -73,5 +73,8 @@
   "manage_data": "quản lý dữ liệu",
   "product_list": "Liệt kê sản phẩm",
   "home": "Trang chủ",
-  "logout": "Đăng xuất"
+  "logout": "Đăng xuất",
+  "select_type_view": "Chọn loại để xem chi tiết",
+  "view_list": "Xem danh sách",
+  "view_grid": "Xem hình ảnh"
 }

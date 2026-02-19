@@ -72,5 +72,8 @@
   "manage_data": "管理数据",
   "product_list": "产品列表",
   "home": "主页",
-  "logout": "退出登录"
+  "logout": "退出登录",
+  "select_type_view": "选择类型查看详情",
+  "view_list": "查看列表",
+  "view_grid": "查看图片"
 }
