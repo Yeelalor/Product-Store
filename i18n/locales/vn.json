@@ -76,5 +76,8 @@
   "logout": "Đăng xuất",
   "select_type_view": "Chọn loại để xem chi tiết",
   "view_list": "Xem danh sách",
-  "view_grid": "Xem hình ảnh"
+  "view_grid": "Xem hình ảnh",
+  "image": "Hình ảnh",
+  "order": "Đặt hàng sản phẩm",
+  "order_multiple": "Đặt hàng nhiều sản phẩm"
 }

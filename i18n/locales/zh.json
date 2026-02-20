@@ -75,5 +75,8 @@
   "logout": "退出登录",
   "select_type_view": "选择类型查看详情",
   "view_list": "查看列表",
-  "view_grid": "查看图片"
+  "view_grid": "查看图片",
+  "image": "图像",
+  "order": "订购产品",
+  "order_multiple": "订购多个产品"
 }

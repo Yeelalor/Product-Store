@@ -76,5 +76,8 @@
   "logout": "Logout",
   "select_type_view": "Select Type view details",
   "view_list": "View List",
-  "view_grid": "View Grid"
+  "view_grid": "View Grid",
+  "image": "Image",
+  "order": "Order Product",
+  "order_multiple": "Order Multiple Products"
 }

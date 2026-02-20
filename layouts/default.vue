@@ -3,7 +3,7 @@
 
     <VAppBar class="bg-primary">
       <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer" color="white"></v-app-bar-nav-icon>
-      <v-btn elevation="0" variant="rounded" :to="'/'" color="white"><v-icon>mdi-home </v-icon><b>{{ $t('home')
+      <v-btn elevation="0" rounded="xl" :to="'/'" color="white"><v-icon>mdi-home </v-icon><b>{{ $t('home')
           }}</b></v-btn>
 
       <v-menu :close-on-content-click="false">
@@ -86,9 +86,9 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { useI18n } from "#imports";
-definePageMeta({
-  layout: "auth",
-});
+// definePageMeta({
+//   layout: "auth",
+// });
 const drawer = ref(true);
 const { locale, setLocale } = useI18n();
 const user = computed(() => useLogin().userLogin);

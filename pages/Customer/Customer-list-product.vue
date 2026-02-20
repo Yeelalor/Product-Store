@@ -1,20 +1,21 @@
 <template>
-    <div grid-list-xs>
-        <v-card color="primary" class="pa-1">
-            <v-card rounded="xl">
+    <div>
+        <v-card rounded="xl">
 
-                <v-card-text>
-                    <div class="d-flex justify-center align-center mb-4">
-                        <h3 class="mr-4">{{ $t('select_type_view') }}: </h3>
-                        <v-btn class="mr-4" color="primary" variant="tonal"><v-icon>mdi-view-list</v-icon>{{
+            <v-card-text>
+                <div class="d-flex justify-center align-center mb-4">
+                    <h3 class="mr-4">{{ $t('select_type_view') }}: </h3>
+                    <v-btn class="mr-4" color="primary" variant="tonal"
+                        @click="viewOption('list')"><v-icon>mdi-view-list</v-icon>{{
                             $t('view_list') }}</v-btn>
-                        <v-btn color="primary" variant="tonal"><v-icon>mdi-view-grid</v-icon>{{ $t('view_grid')
-                        }}</v-btn>
+                    <v-btn color="primary" variant="tonal" @click="viewOption('grid')"><v-icon>mdi-view-grid</v-icon>{{
+                        $t('view_grid')
+                    }}</v-btn>
 
-                    </div>
-                    <v-row><v-col cols="12" md="6" sm="6">
+                </div>
+                <div v-if="view_grid === true"> <v-row><v-col cols="12" md="6" sm="6">
                             <v-text-field rounded="xl" :label="$t('search')" clearable prepend-inner-icon="mdi-magnify"
-                                v-model="search" :rules="rules"></v-text-field></v-col></v-row>
+                                v-model="search"></v-text-field></v-col></v-row>
                     <v-row><v-col cols="3" v-for="i in 16"><v-card width="280px" height="300px" style="
                   background-image: url(/image.png);
                   background-size: cover;
@@ -25,12 +26,58 @@
                                     <v-card-text>
                                         <h5>{{ i.companyName }}({{ i.branchName }})</h5>
                                         <p>{{ $t('price_unit') }}: <b>{{ formatCurrency(i.lakUnit) }}/kip</b></p>
-                                        <p>{{ $t('price_package') }}: <b>{{ formatCurrency(i.lakPackage) }}/kip</b></p>
+                                        <p>{{ $t('price_package') }}: <b>{{ formatCurrency(i.lakPackage) }}/kip</b>
+                                        </p>
                                     </v-card-text>
                                 </v-card>
                             </v-card></v-col></v-row>
-                </v-card-text>
-            </v-card>
+                </div>
+                <!-- tab view by list item  -->
+                <div v-else style="width: 100vw; height: 100vh;" class="pa-10">
+                    <v-row>
+                        <v-col cols="12" md="6" sm="6">
+                            <v-text-field rounded="xl" :label="$t('search')" clearable prepend-inner-icon="mdi-magnify"
+                                v-model="search"></v-text-field>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col cols="12">
+                            <v-data-table v-model="selectedProduct" :headers="headers" :items="pDetails"
+                                :search="search" show-select class="elevation-1" item-value="priceId">
+                                <template v-slot:item.priceId="{ item, index }">
+                                    <td>{{ index + 1 }}</td>
+                                </template>
+                                <template v-slot:item.lakUnit="{ item }">
+                                    <td>{{ formatCurrency(item.lakUnit) }}</td>
+                                </template>
+                                <template v-slot:item.lakPackage="{ item }">
+                                    <td>{{ formatCurrency(item.lakPackage) }}</td>
+                                </template>
+                                <template v-slot:item.thbUnit="{ item }">
+                                    <td>{{ formatCurrency(item.thbUnit) }}</td>
+                                </template>
+                                <template v-slot:item.thbPackage="{ item }">
+                                    <td>{{ formatCurrency(item.thbPackage) }}</td>
+                                </template>
+                                <template v-slot:item.packageUrl="{ item }">
+                                    <td> <v-avatar color="primary" size="48">
+                                            <v-img :src="item.packageUrl" alt="User" />
+                                        </v-avatar></td>
+                                </template>
+                                <!-- <template v-slot:item.actions="{ item }">
+                                    <td>
+                                        <v-btn color="primary" variant="outlined" @click="viewDetails = true">
+                                            <v-icon class="mr-2">mdi-cart-heart</v-icon> {{ $t('order') }}
+                                        </v-btn>
+                                    </td>
+                                </template> -->
+                            </v-data-table>
+                        </v-col>
+                    </v-row>
+
+                </div>
+
+            </v-card-text>
         </v-card>
         <v-dialog v-model="viewDetails" scrollable persistent :overlay="false" max-width="900px"
             transition="dialog-transition">
@@ -129,10 +176,39 @@ const unit_size = ref(false)
 const package_size = ref(false)
 const amount = ref(0)
 const amountTHB = ref(0)
+const view_grid = ref(false);
+const view_list = ref(false);
+const selectedProduct = ref([])
 
 const branchExchange = computed(() => exChangeRate.exchanges)
-
-
+onMounted(() => {
+    product.fetchProducts()
+    // exChangeRate.fetchExchanges()
+})
+const headers = [
+    { title: 'Select', key: 'data-table-select' },
+    { title: '#', key: 'priceId' },
+    { title: $t('image'), key: 'packageUrl' },
+    { title: $t('product_name'), key: 'productName' },
+    { title: $t('conpany_name'), key: 'companyName' },
+    { title: $t('branch_name'), key: 'branchName' },
+    { title: $t('price_unit') + ' (LAK)', key: 'lakUnit' },
+    { title: $t('price_package') + ' (LAK)', key: 'lakPackage' },
+    { title: $t('price_unit') + ' (THB)', key: 'thbUnit' },
+    { title: $t('price_package') + ' (THB)', key: 'thbPackage' },
+    { title: $t('province'), key: 'bprovince' },
+    { title: $t('district'), key: 'bdistrict' },
+    // { title: $t('actions'), key: 'actions' },
+]
+const viewOption = (option) => {
+    if (option === 'grid') {
+        view_grid.value = true
+        view_list.value = false
+    } else {
+        view_list.value = true
+        view_grid.value = false
+    }
+}
 const selectedItem = (size) => {
     if (size === 'unit') {
         counter.value = 0
