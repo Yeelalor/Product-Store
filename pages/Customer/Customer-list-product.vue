@@ -44,9 +44,9 @@
                         <v-col cols="12">
                             <v-data-table v-model="selectedProduct" :headers="headers" :items="pDetails"
                                 :search="search" show-select class="elevation-1" item-value="priceId">
-                                <template v-slot:item.priceId="{ item, index }">
+                                <!-- <template v-slot:item.priceId="{ item, index }">
                                     <td>{{ index + 1 }}</td>
-                                </template>
+                                </template> -->
                                 <template v-slot:item.lakUnit="{ item }">
                                     <td>{{ formatCurrency(item.lakUnit) }}</td>
                                 </template>
@@ -169,7 +169,7 @@ const { formatCurrency } = useInputFormatNumber()
 const { showWarning } = useAlert()
 const exChangeRate = useExchangeStore()
 const imageDetails = ref([])
-const product = useProductStore()
+const product = useCustomerProductsStore()
 
 const pDetails = computed(() => product.products)
 const unit_size = ref(false)
@@ -187,7 +187,7 @@ onMounted(() => {
 })
 const headers = [
     { title: 'Select', key: 'data-table-select' },
-    { title: '#', key: 'priceId' },
+    // { title: '#', key: 'priceId' },
     { title: $t('image'), key: 'packageUrl' },
     { title: $t('product_name'), key: 'productName' },
     { title: $t('conpany_name'), key: 'companyName' },
