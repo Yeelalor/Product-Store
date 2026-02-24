@@ -79,5 +79,6 @@
   "view_grid": "View Grid",
   "image": "Image",
   "order": "Order Product",
-  "order_multiple": "Order Multiple Products"
+  "order_multiple": "Order Multiple Products",
+  "product_details": "Product Details"
 }

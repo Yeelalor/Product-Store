@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
+import type { ProductListModel } from "@/models/product-model";
 export const useCustomerProductsStore = defineStore("customerProducts", {
     state: () => ({
-        products: [],
+        products: [] as ProductListModel[],
         product: null,
         quantity: 0,
         size: "",
@@ -16,9 +17,7 @@ export const useCustomerProductsStore = defineStore("customerProducts", {
         },
 
         async fetchProducts() {
-            const res = await this.callapi().get("getProductDetails");
-            console.log("===========login===========:", res.data);
-
+            const res = await this.callapi().get("getCustomerProductList");
             if (res.data.status == "00") {
                 this.products = res.data.dataRes;
             } else {

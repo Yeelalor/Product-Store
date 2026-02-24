@@ -1,21 +1,25 @@
 <template>
     <div>
         <v-card rounded="xl">
-
             <v-card-text>
                 <div class="d-flex justify-center align-center mb-4">
-                    <h3 class="mr-4">{{ $t('select_type_view') }}: </h3>
+                    <h3 class="mr-4">{{ $t("select_type_view") }}:</h3>
                     <v-btn class="mr-4" color="primary" variant="tonal"
-                        @click="viewOption('list')"><v-icon>mdi-view-list</v-icon>{{
-                            $t('view_list') }}</v-btn>
+                        @click="viewOption('list')"><v-icon>mdi-view-list</v-icon>{{ $t("view_list") }}</v-btn>
                     <v-btn color="primary" variant="tonal" @click="viewOption('grid')"><v-icon>mdi-view-grid</v-icon>{{
-                        $t('view_grid')
-                    }}</v-btn>
-
+                        $t("view_grid") }}</v-btn>
                 </div>
-                <div v-if="view_grid === true"> <v-row><v-col cols="12" md="6" sm="6">
-                            <v-text-field rounded="xl" :label="$t('search')" clearable prepend-inner-icon="mdi-magnify"
-                                v-model="search"></v-text-field></v-col></v-row>
+                <div v-if="view_grid === true">
+                    <v-row><v-col cols="12" md="6" sm="6">
+                            <div class="d-flex">
+                                <v-text-field rounded="xl" :label="$t('search')" clearable
+                                    prepend-inner-icon="mdi-magnify" v-model="search"></v-text-field>
+
+                                <v-badge location="top right" color="red" content="25">
+                                    <v-icon class="mr-2" size="x-large">mdi-cart-heart</v-icon>
+                                </v-badge>
+                            </div>
+                        </v-col></v-row>
                     <v-row><v-col cols="3" v-for="i in 16"><v-card width="280px" height="300px" style="
                   background-image: url(/image.png);
                   background-size: cover;
@@ -25,19 +29,25 @@
                                     <v-card-title primary-title class=""> Flowers </v-card-title>
                                     <v-card-text>
                                         <h5>{{ i.companyName }}({{ i.branchName }})</h5>
-                                        <p>{{ $t('price_unit') }}: <b>{{ formatCurrency(i.lakUnit) }}/kip</b></p>
-                                        <p>{{ $t('price_package') }}: <b>{{ formatCurrency(i.lakPackage) }}/kip</b>
+                                        <p>
+                                            {{ $t("price_unit") }}:
+                                            <b>{{ formatCurrency(i.lakUnit) }}/kip</b>
+                                        </p>
+                                        <p>
+                                            {{ $t("price_package") }}:
+                                            <b>{{ formatCurrency(i.lakPackage) }}/kip</b>
                                         </p>
                                     </v-card-text>
                                 </v-card>
                             </v-card></v-col></v-row>
                 </div>
                 <!-- tab view by list item  -->
-                <div v-else style="width: 100vw; height: 100vh;" class="pa-10">
+                <div v-else style="width: 100vw; height: 100vh" class="pa-10">
                     <v-row>
                         <v-col cols="12" md="6" sm="6">
                             <v-text-field rounded="xl" :label="$t('search')" clearable prepend-inner-icon="mdi-magnify"
                                 v-model="search"></v-text-field>
+                            <v-icon class="mr-2">mdi-cart-heart</v-icon>
                         </v-col>
                     </v-row>
                     <v-row>
@@ -47,6 +57,7 @@
                                 <!-- <template v-slot:item.priceId="{ item, index }">
                                     <td>{{ index + 1 }}</td>
                                 </template> -->
+
                                 <template v-slot:item.lakUnit="{ item }">
                                     <td>{{ formatCurrency(item.lakUnit) }}</td>
                                 </template>
@@ -60,54 +71,57 @@
                                     <td>{{ formatCurrency(item.thbPackage) }}</td>
                                 </template>
                                 <template v-slot:item.packageUrl="{ item }">
-                                    <td> <v-avatar color="primary" size="48">
+                                    <td>
+                                        <v-avatar color="primary" size="48">
                                             <v-img :src="item.packageUrl" alt="User" />
-                                        </v-avatar></td>
+                                        </v-avatar>
+                                    </td>
                                 </template>
-                                <!-- <template v-slot:item.actions="{ item }">
+                                <template v-slot:item.actions="{ item }">
                                     <td>
                                         <v-btn color="primary" variant="outlined" @click="viewDetails = true">
-                                            <v-icon class="mr-2">mdi-cart-heart</v-icon> {{ $t('order') }}
+                                            <v-icon class="mr-2">mdi-cart-heart</v-icon>
+                                            {{ $t("order") }}
                                         </v-btn>
                                     </td>
-                                </template> -->
+                                </template>
                             </v-data-table>
                         </v-col>
                     </v-row>
-
                 </div>
-
             </v-card-text>
         </v-card>
-        <v-dialog v-model="viewDetails" scrollable persistent :overlay="false" max-width="900px"
+        <v-dialog v-model="viewDetails" fullscreen scrollable persistent :overlay="false" max-width="900px"
             transition="dialog-transition">
             <v-card>
-                <v-card-title primary-title class="d-flex justify-startspace-between "
-                    style="background-color: #1976D2; color: white;">
-                    <h4>{{ $t('product_details') }}</h4><v-spacer></v-spacer>
+                <v-card-title primary-title class="d-flex justify-startspace-between">
+                    <h4>{{ $t("product_details") }}</h4>
+                    <v-spacer></v-spacer>
                     <v-btn color="red" @click="cancel()">X</v-btn>
                 </v-card-title>
                 <v-divider></v-divider>
                 <v-card-text>
                     <v-row><v-col cols="12" md="6">
-                            <v-card rounded="xl" style="
+                            <v-card class="ml-1" style="
                   background-image: url(/image.png);
                   background-size: cover;
-                " width="400px" height="400px">
+                " width="600px" height="600px">
                                 <br /><br />
-                                <br />
-                                <v-card width="200px" height="150px" style="
-                    background-image: url(/image.png);
-                    background-size: cover;
-                  " elevation-1 rounded="xl" variant="outlined" color="primary">
+                            </v-card>
+
+                            <div class="d-flex pt-2">
+                                <v-card class="mr-2" width="300px" height="200px" style="" elevation-1 rounded="md"
+                                    variant="outlined" color="primary">
+                                    <img src="/image.png" alt="" />
                                 </v-card>
 
-                                <v-card width="200px" height="150px" style="
+                                <v-card width="300px" height="200px" style="
                     background-image: url(/img.png);
                     background-size: cover;
-                    margin-top: 5px;
-                  " variant="outlined" rounded="xl" color="primary">
-                                </v-card> </v-card></v-col><v-col cols="12" md="6">
+                  " variant="outlined" rounded="md" color="primary">
+                                </v-card>
+                            </div>
+                        </v-col><v-col cols="12" md="6">
                             <h1 class="text-primary">ຮ້ານ ນາງ ກ ນ້ອຍ (ສາຂາ 2)</h1>
 
                             <v-divider></v-divider>
@@ -120,15 +134,14 @@
                                 rounded="xl">ແພັກ</v-btn>
                             <v-btn color="primary" rounded="xl" @click="selectedItem()">ຕຸກ</v-btn>
                             <br />
-                            <br>
+                            <br />
 
                             <v-row><v-col cols="12">
                                     <div class="d-flex align-center">
-                                        <v-btn color="primary">{{ $t('add_qty') }} </v-btn>:
+                                        <v-btn color="primary">{{ $t("add_qty") }} </v-btn>:
                                         <v-icon @click="decrease()">mdi-minus</v-icon>
                                         <v-btn color="primary">{{ counter }}</v-btn>
                                         <v-icon @click="count()" class="mr-5">mdi-plus</v-icon>
-
                                     </div>
                                 </v-col>
                             </v-row>
@@ -146,11 +159,10 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-btn color="secondary" variant="outlined" @click="cancel()"><v-icon>mdi-cancel</v-icon>{{
-                        $t('btn_cancel')
+                        $t("btn_cancel")
                         }}</v-btn>
-                    <v-btn color="primary" variant="outlined"><v-icon>mdi-checkbox-marked</v-icon> {{ $t('add_to_card')
+                    <v-btn color="primary" variant="outlined"><v-icon>mdi-checkbox-marked</v-icon> {{ $t("add_to_card")
                         }}</v-btn>
-
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -158,84 +170,81 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted } from "vue";
+const viewDetails = ref(false);
+const search = ref("");
+const select = ref(false);
+const itemDetails = ref([]);
+const counter = ref(0);
+const { formatCurrency } = useInputFormatNumber();
+const { showWarning } = useAlert();
+const exChangeRate = useExchangeStore();
+const imageDetails = ref([]);
+const product = useCustomerProductsStore();
 
-const viewDetails = ref(false)
-const search = ref("")
-const select = ref(false)
-const itemDetails = ref([])
-const counter = ref(0)
-const { formatCurrency } = useInputFormatNumber()
-const { showWarning } = useAlert()
-const exChangeRate = useExchangeStore()
-const imageDetails = ref([])
-const product = useCustomerProductsStore()
-
-const pDetails = computed(() => product.products)
-const unit_size = ref(false)
-const package_size = ref(false)
-const amount = ref(0)
-const amountTHB = ref(0)
+const pDetails = computed(() => product.products);
+const unit_size = ref(false);
+const package_size = ref(false);
+const amount = ref(0);
+const amountTHB = ref(0);
 const view_grid = ref(false);
 const view_list = ref(false);
-const selectedProduct = ref([])
+const selectedProduct = ref([]);
 
-const branchExchange = computed(() => exChangeRate.exchanges)
+const branchExchange = computed(() => exChangeRate.exchanges);
 onMounted(() => {
-    product.fetchProducts()
+    product.fetchProducts();
     // exChangeRate.fetchExchanges()
-})
+});
 const headers = [
-    { title: 'Select', key: 'data-table-select' },
+    { title: "Select", key: "data-table-select" },
     // { title: '#', key: 'priceId' },
-    { title: $t('image'), key: 'packageUrl' },
-    { title: $t('product_name'), key: 'productName' },
-    { title: $t('conpany_name'), key: 'companyName' },
-    { title: $t('branch_name'), key: 'branchName' },
-    { title: $t('price_unit') + ' (LAK)', key: 'lakUnit' },
-    { title: $t('price_package') + ' (LAK)', key: 'lakPackage' },
-    { title: $t('price_unit') + ' (THB)', key: 'thbUnit' },
-    { title: $t('price_package') + ' (THB)', key: 'thbPackage' },
-    { title: $t('province'), key: 'bprovince' },
-    { title: $t('district'), key: 'bdistrict' },
+    { title: $t("image"), key: "packageUrl" },
+    { title: $t("product_name"), key: "productName" },
+    // { title: $t('conpany_name'), key: 'companyName' },
+    // { title: $t('branch_name'), key: 'branchName' },
+    { title: $t("price_unit") + " (LAK)", key: "lakUnit" },
+    { title: $t("price_package") + " (LAK)", key: "lakPackage" },
+    { title: $t("price_unit") + " (THB)", key: "thbUnit" },
+    { title: $t("price_package") + " (THB)", key: "thbPackage" },
+    { title: $t("actions"), key: "actions" },
+    // { title: $t('district'), key: 'bdistrict' },
     // { title: $t('actions'), key: 'actions' },
-]
+];
 const viewOption = (option) => {
-    if (option === 'grid') {
-        view_grid.value = true
-        view_list.value = false
+    if (option === "grid") {
+        view_grid.value = true;
+        view_list.value = false;
     } else {
-        view_list.value = true
-        view_grid.value = false
+        view_list.value = true;
+        view_grid.value = false;
     }
-}
+};
 const selectedItem = (size) => {
-    if (size === 'unit') {
-        counter.value = 0
-        unit_size.value = true
+    if (size === "unit") {
+        counter.value = 0;
+        unit_size.value = true;
 
-        package_size.value = false
-    } else if (size === 'package') {
-
-        counter.value = 0
-        package_size.value = true
-        unit_size.value = false
+        package_size.value = false;
+    } else if (size === "package") {
+        counter.value = 0;
+        package_size.value = true;
+        unit_size.value = false;
     }
-    select.value = !select.value
-}
+    select.value = !select.value;
+};
 
 const cancel = () => {
-    viewDetails.value = false
-    counter.value = 0
-    amount.value = 0
-    amountTHB.value = 0
-    unit_size.value = false
-    package_size.value = false
-}
+    viewDetails.value = false;
+    counter.value = 0;
+    amount.value = 0;
+    amountTHB.value = 0;
+    unit_size.value = false;
+    package_size.value = false;
+};
 const count = () => {
     counter.value++;
     console.log("=============item============:", counter.value);
-
 };
 const decrease = () => {
     if (counter.value >= 1) {
