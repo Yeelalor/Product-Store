@@ -8,7 +8,7 @@
             <v-divider></v-divider>
             <v-card-text>
               <v-data-table :headers="headers" :items="companies_list" class="elevation-1">
-                <template #item.id="{ index }">
+                <template #[`item.id`]="{ index }">
                   {{ index + 1 }}
                 </template>
                 <template #item.actions="{ item }">

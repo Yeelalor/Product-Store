@@ -80,5 +80,11 @@
   "image": "Hình ảnh",
   "order": "Đặt hàng sản phẩm",
   "order_multiple": "Đặt hàng nhiều sản phẩm",
-  "product_details": "Chi tiết sản phẩm"
+  "product_details": "Chi tiết sản phẩm",
+  "add_qty": "Số lượng",
+  "size": "kích cỡ",
+  "unit": "đơn vị",
+  "pack": "bưu kiện",
+  "buy_now": "Mua ngay",
+  "add_cart": "Thêm vào giỏ hàng"
 }

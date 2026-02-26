@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia';
+import type { ExChangeModel } from '@/models/exchange-model';
 export const useExchangeStore = defineStore('exchangeStore', {
     state() {
         return {
-            exchanges: [],
+            exchanges: [] as ExChangeModel[],
             loading: false,
             search: null,
         };
@@ -12,7 +13,14 @@ export const useExchangeStore = defineStore('exchangeStore', {
             const { mainApi } = useApi();
             return mainApi;
         },
-
+        calculateProductPrice(price: string): number {
+            const priceNum = parseFloat(price);
+            const exchangeRateNum = this.exchanges[0] ? parseFloat(this.exchanges[0].thb) : 0; // Assuming you want to use the THB exchange rate from the first item in the exchanges array
+            if (isNaN(priceNum) || isNaN(exchangeRateNum)) {
+                return 0; // Return 0 if either value is not a valid number
+            }
+            return priceNum * exchangeRateNum;
+        },
         cleanData() {
             this.exchanges = [];
             this.search = null;

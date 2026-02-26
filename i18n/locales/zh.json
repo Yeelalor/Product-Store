@@ -79,5 +79,11 @@
   "image": "图像",
   "order": "订购产品",
   "order_multiple": "订购多个产品",
-  "product_details": "产品详情"
+  "product_details": "产品详情",
+  "add_qty": "数量",
+  "size": "尺寸",
+  "unit": "单元",
+  "pack": "包裹",
+  "buy_now": "立即购买",
+  "add_cart": "添加到购物车"
 }

@@ -80,5 +80,11 @@
   "image": "Image",
   "order": "Order Product",
   "order_multiple": "Order Multiple Products",
-  "product_details": "Product Details"
+  "product_details": "Product Details",
+  "add_qty": "Quantity",
+  "size": "Size",
+  "unit": "Unit",
+  "pack": "Package",
+  "buy_now": "Buy Now",
+  "add_cart": "Add to Cart"
 }
