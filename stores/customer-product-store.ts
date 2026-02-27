@@ -6,6 +6,7 @@ export const useCustomerProductsStore = defineStore("customerProducts", {
         product: null as ProductListModel | null,
         quantity: 0,
         size: "",
+        lake_rate: 0,
         totalAmountLak: 0,
         totalAmountThb: 0,
         viewDetails_for_Order: false,
@@ -17,19 +18,40 @@ export const useCustomerProductsStore = defineStore("customerProducts", {
             const { mainApi } = useApi();
             return mainApi;
         },
+        callExchante() {
+            const exchangeStore = useExchangeStore();
+            return exchangeStore;
+        },
+        selectSize(size: string) {
+            this.size = size;
+        },
         minusQuantity() {
-            if (this.product && this.quantity > 0) {
-                this.quantity -= 1;
-                // this.totalAmountLak = this.quantity * this.product.priceLak;
-                // this.totalAmountThb = this.quantity * this.product.priceThb;
+            if (this.size === '') {
+                CallSwal({ icon: "warning", title: "Error", text: "Please select a size first.!" });
+                return;
+            } else {
+                if (this.quantity > 0) {
+                    this.quantity -= 1;
+                    if (this.size === 'package') {
+                        this.lake_rate = Number(this.product?.lakPackage.replace(/,/g, '')) || 0;
+                    } else if (this.size === 'unit') {
+                        this.lake_rate = Number(this.product?.lakUnit.replace(/,/g, '')) || 0;
+                    }
+                    this.totalAmountLak = this.quantity * this.lake_rate;
+                    // this.totalAmountThb = this.quantity * this.product.priceThb;
+                }
             }
+
         },
         addQuantity() {
-            if (this.product) {
+            if (this.size === '') {
+                CallSwal({ icon: "warning", title: "Error", text: "Please select a size first.!" });
+                return;
+            } else {
                 this.quantity += 1;
-                // this.totalAmountLak = this.quantity * this.product.priceLak;
-                // this.totalAmountThb = this.quantity * this.product.priceThb;
+                this.totalAmountLak = this.quantity * this.lake_rate;
             }
+
         },
         selectItem(item: ProductListModel) {
             this.image_list = [];

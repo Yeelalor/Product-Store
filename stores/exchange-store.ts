@@ -13,13 +13,15 @@ export const useExchangeStore = defineStore('exchangeStore', {
             const { mainApi } = useApi();
             return mainApi;
         },
-        calculateProductPrice(price: string): number {
-            const priceNum = parseFloat(price);
-            const exchangeRateNum = this.exchanges[0] ? parseFloat(this.exchanges[0].thb) : 0; // Assuming you want to use the THB exchange rate from the first item in the exchanges array
-            if (isNaN(priceNum) || isNaN(exchangeRateNum)) {
-                return 0; // Return 0 if either value is not a valid number
-            }
-            return priceNum * exchangeRateNum;
+        callFormat(value: any) {
+            const { formatCurrency } = useInputFormatNumber();
+            return formatCurrency(value);
+        },
+        calculateProductPrice(price: string, exchange: String) {
+            const priceNum = Number(price.replace(/,/g, ''));
+            const exchangeRateNum = Number(exchange.replace(/,/g, ''));
+            const result = priceNum * exchangeRateNum;
+            return this.callFormat(result);
         },
         cleanData() {
             this.exchanges = [];

@@ -86,26 +86,35 @@
                 class="elevation-1"
                 item-value="priceId"
               >
-                <!-- <template v-slot:item.priceId="{ item, index }">
-                                    <td>{{ index + 1 }}</td>
-                                </template> -->
-
                 <template #item.lakUnit="{ item }">
                   <td>
-                    <p v-if="item.thbUnit != 0 || item.thbUnit != null">
+                    <p v-if="item.thbUnit != 0 && item.thbUnit != null">
                       {{
-                        formatCurrency(exChangeRate.calculateProductPrice(item.thbUnit))
+                        exChangeRate.calculateProductPrice(
+                          item.thbUnit,
+                          branchExchange?.[0]?.thb
+                        )
                       }}
                     </p>
-                     <p v-else>
-                      {{
-                        formatCurrency(item.lakUnit)
-                      }}
+                    <p v-else>
+                      {{ formatCurrency(item.lakUnit) }}
                     </p>
                   </td>
                 </template>
                 <template #item.lakPackage="{ item }">
-                  <td>{{ formatCurrency(item.lakPackage) }}</td>
+                  <td>
+                    <p v-if="item.thbPackage != 0 && item.thbPackage != null">
+                      {{
+                        exChangeRate.calculateProductPrice(
+                          item.thbPackage,
+                          branchExchange?.[0]?.thb
+                        )
+                      }}
+                    </p>
+                    <p v-else>
+                      {{ formatCurrency(item.lakPackage) }}
+                    </p>
+                  </td>
                 </template>
                 <template #item.thbUnit="{ item }">
                   <td>{{ formatCurrency(item.thbUnit) }}</td>
@@ -200,26 +209,58 @@
                   <div width="50%" class="text-right">
                     <h4>{{ $t("price_package") }}:</h4>
                     <h4>{{ $t("price_unit") }}:</h4>
+                    <h4>{{ $t("total") }}:</h4>
                     <h4>{{ $t("size") }}:</h4>
 
                     <br />
                     <h4 class="mt-2">{{ $t("add_qty") }}:</h4>
                   </div>
-                  <div width="50%" class="ml-5">
-                    <h4>
-                      {{ formatCurrency(productDetailsOnview?.lakPackage) }}
+                  <div width="60%" class="ml-5">
+                    <h4
+                      :class="product.size == 'package' ? 'text-primary' : 'text-black'"
+                    >
+                      {{
+                        productDetailsOnview?.lakPackage != null
+                          ? exChangeRate.calculateProductPrice(
+                              productDetailsOnview.thbPackage,
+                              branchExchange?.[0]?.thb
+                            )
+                          : formatCurrency(productDetailsOnview?.lakPackage)
+                      }}
                     </h4>
-                    <h4>{{ formatCurrency(productDetailsOnview?.lakUnit) }}</h4>
+                    <h4 :class="product.size == 'unit' ? 'text-primary' : 'text-black'">
+                      {{
+                        productDetailsOnview?.thbUnit != null
+                          ? exChangeRate.calculateProductPrice(
+                              productDetailsOnview.thbUnit,
+                              branchExchange?.[0]?.thb
+                            )
+                          : formatCurrency(productDetailsOnview?.lakUnit)
+                      }}
+                    </h4>
+
+                    <h4>{{ formatCurrency(product.totalAmountLak) }}</h4>
                     <v-btn
                       class="mr-3"
-                      :color="select == true ? 'primary' : 'grey'"
-                      @click="selectedItem()"
+                      :color="product.size == 'package' ? 'primary' : 'grey'"
+                      @click="
+                        product.selectSize(
+                          'package'
+                        )
+                      "
                       variant="outlined"
                       >{{ $t("pack") }}</v-btn
                     >
-                    <v-btn color="primary" variant="outlined" @click="selectedItem()">{{
-                      $t("unit")
-                    }}</v-btn>
+                    <v-btn
+                      :color="product.size == 'unit' ? 'primary' : 'grey'"
+                      variant="outlined"
+                      @click="
+                        product.selectSize(
+                          'unit',
+                        )
+                      "
+                      >{{ $t("unit") }}</v-btn
+                    >
                     <br />
                     <br />
                     <div class="d-flex align-center">
@@ -237,9 +278,9 @@
               <br />
               <v-row
                 ><v-col cols="6"
-                  ><v-btn color="red" class="ma-5" variant="outlined "
+                  ><v-btn color="red" class="ma-5" variant="outlined"
                     ><v-icon> mdi-cash-100 </v-icon>{{ $t("buy_now") }}</v-btn
-                  ><v-btn color="primary" class="ma-5" variant="outlined "
+                  ><v-btn color="primary" class="ma-5" variant="outlined"
                     ><v-icon> mdi-cart-plus </v-icon>{{ $t("add_cart") }}</v-btn
                   ></v-col
                 ></v-row
@@ -284,7 +325,7 @@ const images = ref(["/image.png", "/image.png", "/image.png", "/image.png"]);
 const branchExchange = computed(() => exChangeRate.exchanges);
 onMounted(() => {
   product.fetchProducts();
-  exChangeRate.getExchangeByBranch(1)
+  exChangeRate.getExchangeByBranch(1);
 });
 const groupedImages = computed(() => {
   if (!Array.isArray(images.value)) return [];
@@ -322,8 +363,6 @@ const viewOption = (option: string) => {
     view_list.value = false;
   }
 };
-
-
 </script>
 
 <style lang="scss" scoped>
