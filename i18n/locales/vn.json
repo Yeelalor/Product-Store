@@ -86,5 +86,6 @@
   "unit": "đơn vị",
   "pack": "bưu kiện",
   "buy_now": "Mua ngay",
-  "add_cart": "Thêm vào giỏ hàng"
+  "add_cart": "Thêm vào giỏ hàng",
+  "select_main_currency": "Chọn đơn vị tiền tệ chính"
 }

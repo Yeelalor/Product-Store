@@ -4,8 +4,8 @@ export const useCustomerProductsStore = defineStore("customerProducts", {
     state: () => ({
         products: [] as ProductListModel[],
         product: null as ProductListModel | null,
-        quantity: 0,
-        size: "",
+        quantity: 1,
+        size: "package",
         lake_rate: 0,
         totalAmountLak: 0,
         totalAmountThb: 0,
@@ -23,35 +23,59 @@ export const useCustomerProductsStore = defineStore("customerProducts", {
             return exchangeStore;
         },
         selectSize(size: string) {
+            this.quantity = 1;
+            if (this.product) {
+                this.product.qty = this.quantity as any;
+            }
             this.size = size;
+            if (this.product) {
+                this.product.size = size;
+            }
         },
         minusQuantity() {
-            if (this.size === '') {
-                CallSwal({ icon: "warning", title: "Error", text: "Please select a size first.!" });
-                return;
-            } else {
-                if (this.quantity > 0) {
-                    this.quantity -= 1;
-                    if (this.size === 'package') {
-                        this.lake_rate = Number(this.product?.lakPackage.replace(/,/g, '')) || 0;
-                    } else if (this.size === 'unit') {
-                        this.lake_rate = Number(this.product?.lakUnit.replace(/,/g, '')) || 0;
+            if (this.quantity > 0) {
+                this.quantity -= 1;
+                if (this.product) {
+                    this.product.qty = this.quantity as any;
+                    if (this.product.size === "package") {
+                        const totalThb = this.product.qty * this.product.thbPackage;
+                        const totalLak = this.product.qty * this.product.lakPackage;
+                        const totalUsd = this.product.qty * this.product.usdPackage;
+                        this.product.totalThb = totalThb;
+                        this.product.totalLak = totalLak;
+                        this.product.totalUsd = totalUsd;
+                    } else {
+                        const totalThb = this.product.qty * this.product.thbUnit;
+                        const totalLak = this.product.qty * this.product.lakUnit;
+                        const totalUsd = this.product.qty * this.product.usdUnit;
+                        this.product.totalLak = totalLak;
+                        this.product.totalUsd = totalUsd;
+                        this.product.totalThb = totalThb;
                     }
-                    this.totalAmountLak = this.quantity * this.lake_rate;
-                    // this.totalAmountThb = this.quantity * this.product.priceThb;
                 }
             }
 
         },
         addQuantity() {
-            if (this.size === '') {
-                CallSwal({ icon: "warning", title: "Error", text: "Please select a size first.!" });
-                return;
-            } else {
-                this.quantity += 1;
-                this.totalAmountLak = this.quantity * this.lake_rate;
+            this.quantity += 1;
+            if (this.product) {
+                this.product.qty = this.quantity as any;
+                if (this.product.size === "package") {
+                    const totalThb = this.product.qty * this.product.thbPackage;
+                    const totalLak = this.product.qty * this.product.lakPackage;
+                    const totalUsd = this.product.qty * this.product.usdPackage;
+                    this.product.totalThb = totalThb;
+                    this.product.totalLak = totalLak;
+                    this.product.totalUsd = totalUsd;
+                } else {
+                    const totalThb = this.product.qty * this.product.thbUnit;
+                    const totalLak = this.product.qty * this.product.lakUnit;
+                    const totalUsd = this.product.qty * this.product.usdUnit;
+                    this.product.totalLak = totalLak;
+                    this.product.totalUsd = totalUsd;
+                    this.product.totalThb = totalThb;
+                }
             }
-
         },
         selectItem(item: ProductListModel) {
             this.image_list = [];

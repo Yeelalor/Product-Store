@@ -65,14 +65,18 @@
         <div v-else style="width: 100vw; height: 100vh" class="pa-10">
           <v-row>
             <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                rounded="xl"
-                :label="$t('search')"
-                clearable
-                prepend-inner-icon="mdi-magnify"
-                v-model="search"
-              ></v-text-field>
-              <v-icon class="mr-2">mdi-cart-heart</v-icon>
+              <div class="d-flex justify-space-between align-center">
+                <v-text-field
+                  rounded="xl"
+                  :label="$t('search')"
+                  clearable
+                  prepend-inner-icon="mdi-magnify"
+                  v-model="search"
+                ></v-text-field
+                ><v-badge class="ml-4" location="top right" color="red" content="25">
+                  <v-icon class="mr-2" size="x-large">mdi-cart-heart</v-icon>
+                </v-badge>
+              </div>
             </v-col>
           </v-row>
           <v-row>
@@ -88,27 +92,25 @@
               >
                 <template #item.lakUnit="{ item }">
                   <td>
-                    <p v-if="item.thbUnit != 0 && item.thbUnit != null">
+                    <p >
                       {{
                         exChangeRate.calculateProductPrice(
-                          item.thbUnit,
-                          branchExchange?.[0]?.thb
+                          item,
+                          branchExchange?.[0]
                         )
                       }}
                     </p>
-                    <p v-else>
-                      {{ formatCurrency(item.lakUnit) }}
-                    </p>
+                    
                   </td>
                 </template>
                 <template #item.lakPackage="{ item }">
                   <td>
                     <p v-if="item.thbPackage != 0 && item.thbPackage != null">
                       {{
-                        exChangeRate.calculateProductPrice(
-                          item.thbPackage,
-                          branchExchange?.[0]?.thb
-                        )
+                      item.thb==1||item.usd==1?  exChangeRate.calculateProductPrice(
+                          item,
+                          branchExchange?.[0]
+                        ): formatCurrency(item.lakPackage)
                       }}
                     </p>
                     <p v-else>
@@ -209,9 +211,9 @@
                   <div width="50%" class="text-right">
                     <h4>{{ $t("price_package") }}:</h4>
                     <h4>{{ $t("price_unit") }}:</h4>
-                    <h4>{{ $t("total") }}:</h4>
                     <h4>{{ $t("size") }}:</h4>
-
+                    <h4>{{ $t("total") }}:</h4>
+                    <br /> 
                     <br />
                     <h4 class="mt-2">{{ $t("add_qty") }}:</h4>
                   </div>
@@ -220,52 +222,43 @@
                       :class="product.size == 'package' ? 'text-primary' : 'text-black'"
                     >
                       {{
-                        productDetailsOnview?.lakPackage != null
+                        productDetailsOnview?.thbPackage != 0
                           ? exChangeRate.calculateProductPrice(
-                              productDetailsOnview.thbPackage,
-                              branchExchange?.[0]?.thb
+                              productDetailsOnview,
+                              branchExchange?.[0]
                             )
                           : formatCurrency(productDetailsOnview?.lakPackage)
                       }}
                     </h4>
                     <h4 :class="product.size == 'unit' ? 'text-primary' : 'text-black'">
                       {{
-                        productDetailsOnview?.thbUnit != null
+                        productDetailsOnview?.thbUnit != 0
                           ? exChangeRate.calculateProductPrice(
-                              productDetailsOnview.thbUnit,
-                              branchExchange?.[0]?.thb
+                              productDetailsOnview,
+                              branchExchange?.[0]
                             )
                           : formatCurrency(productDetailsOnview?.lakUnit)
                       }}
                     </h4>
-
-                    <h4>{{ formatCurrency(product.totalAmountLak) }}</h4>
                     <v-btn
                       class="mr-3"
                       :color="product.size == 'package' ? 'primary' : 'grey'"
-                      @click="
-                        product.selectSize(
-                          'package'
-                        )
-                      "
+                      @click="product.selectSize('package')"
                       variant="outlined"
                       >{{ $t("pack") }}</v-btn
                     >
                     <v-btn
                       :color="product.size == 'unit' ? 'primary' : 'grey'"
                       variant="outlined"
-                      @click="
-                        product.selectSize(
-                          'unit',
-                        )
-                      "
+                      @click="product.selectSize('unit')"
                       >{{ $t("unit") }}</v-btn
                     >
+                    <h4> {{product.product.size=='package' ? formatCurrency(product.product.total) : '' }}</h4>
                     <br />
                     <br />
                     <div class="d-flex align-center">
                       <v-icon @click="product.minusQuantity()">mdi-minus</v-icon>
-                      <v-btn color="primary">{{ product.quantity }}</v-btn>
+                      <v-btn color="primary">{{ product.product.qty }}</v-btn>
                       <v-icon @click="product.addQuantity()" class="mr-5"
                         >mdi-plus</v-icon
                       >

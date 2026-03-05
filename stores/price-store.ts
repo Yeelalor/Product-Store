@@ -10,12 +10,12 @@ export const usePriceStore = defineStore('priceStore', {
                 priceId: 0,
                 branchId: null,
                 productId: null,
-                lakUnit: null,
-                lakPackage: null,
-                thbUnit: null,
-                thbPackage: null,
-                usdUnit: null,
-                usdPackage: null,
+                lakUnit: 0,
+                lakPackage: 0,
+                thbUnit: 0,
+                thbPackage: 0,
+                usdUnit: 0,
+                usdPackage: 0,
                 updateBy: null,
                 lak: null,
                 thb: null,
@@ -37,7 +37,8 @@ export const usePriceStore = defineStore('priceStore', {
                 this.prices = res.data.dataRes;
                 console.log("allData=============", this.prices);
             } else {
-                showError(res.data.message);
+
+                CallSwal({ icon: "warning", title: "ຜິດພາດ", text: res.data.message });
             }
         },
         async updatePrice() {
@@ -46,32 +47,32 @@ export const usePriceStore = defineStore('priceStore', {
                 priceId: this.request.key_id,
                 branchId: this.request.branchId,
                 productId: this.request.productId,
-                lakUnit: this.request.lakUnit,
-                lakPackage: this.request.lakPackage,
-                thbUnit: this.request.thbUnit,
-                thbPackage: this.request.thbPackage,
-                usdUnit: this.request.usdUnit,
-                usdPackage: this.request.usdPackage,
+                lakUnit: String(this.request.lakUnit)?.replace(/,/g, ''),
+                lakPackage: String(this.request.lakPackage)?.replace(/,/g, ''),
+                thbUnit: String(this.request.thbUnit)?.replace(/,/g, ''),
+                thbPackage: String(this.request.thbPackage)?.replace(/,/g, ''),
+                usdUnit: String(this.request.usdUnit)?.replace(/,/g, ''),
+                usdPackage: String(this.request.usdPackage)?.replace(/,/g, ''),
                 updateBy: "youaadmin",
                 lak: this.request.selectCurrency == "lak" ? 1 : 0,
                 thb: this.request.selectCurrency == "thb" ? 1 : 0,
                 usd: this.request.selectCurrency == "usd" ? 1 : 0,
             };
-            const res = await this.callapi().post("updatePrice", body);
+            const res = await this.callapi().put("updatePrice", body);
             return res.data;
 
         },
-        cloarData() {
+        clearData() {
             this.request.edit = false;
             this.request.key_id = null;
             this.request.branchId = null;
             this.request.productId = null;
-            this.request.lakUnit = null;
-            this.request.lakPackage = null;
-            this.request.thbUnit = null;
-            this.request.thbPackage = null;
-            this.request.usdUnit = null;
-            this.request.usdPackage = null;
+            this.request.lakUnit = 0;
+            this.request.lakPackage = 0;
+            this.request.thbUnit = 0;
+            this.request.thbPackage = 0;
+            this.request.usdUnit = 0;
+            this.request.usdPackage = 0;
             this.request.selectCurrency = 'lak';
             this.request.lak = null;
             this.request.thb = null;
@@ -81,12 +82,12 @@ export const usePriceStore = defineStore('priceStore', {
             var body = {
                 branchId: this.request.branchId,
                 productId: this.request.productId,
-                lakUnit: this.request.lakUnit,
-                lakPackage: this.request.lakPackage,
-                thbUnit: this.request.thbUnit,
-                thbPackage: this.request.thbPackage,
-                usdUnit: this.request.usdUnit,
-                usdPackage: this.request.usdPackage,
+                lakUnit: String(this.request.lakUnit)?.replace(/,/g, ''),
+                lakPackage: String(this.request.lakPackage)?.replace(/,/g, ''),
+                thbUnit: String(this.request.thbUnit)?.replace(/,/g, ''),
+                thbPackage: String(this.request.thbPackage)?.replace(/,/g, ''),
+                usdUnit: String(this.request.usdUnit)?.replace(/,/g, ''),
+                usdPackage: String(this.request.usdPackage)?.replace(/,/g, ''),
                 createBy: 'youaadmin',
                 lak: this.request.selectCurrency == "lak" ? 1 : 0,
                 thb: this.request.selectCurrency == "thb" ? 1 : 0,
@@ -100,7 +101,8 @@ export const usePriceStore = defineStore('priceStore', {
                 this.loading = false;
 
             } else {
-                showError(res.data.message);
+                CallSwal({ icon: "warning", title: "ຜິດພາດ", text: res.data.message });
+                this.loading = false;
             }
         },
     },

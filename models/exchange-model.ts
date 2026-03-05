@@ -1,9 +1,9 @@
 export interface ExChangeModel {
     id: number;
     companyId: string;
-    thb: string;
-    lak: string;
-    usd: string;
+    thb: number;
+    lak: number;
+    usd: number;
     createDate: Date;
     branchId: number;
     branchName: string;

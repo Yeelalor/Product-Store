@@ -85,5 +85,6 @@
   "unit": "单元",
   "pack": "包裹",
   "buy_now": "立即购买",
-  "add_cart": "添加到购物车"
+  "add_cart": "添加到购物车",
+  "select_main_currency": "选择主货币"
 }

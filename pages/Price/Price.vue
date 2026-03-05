@@ -21,10 +21,10 @@
               ">
             <v-row>
               <v-col cols="4">
-                <v-autocomplete v-model="branch" :items="branches" item-value="id" item-title="branchName"
+                <v-autocomplete v-model="price.request.branchId" :items="branches" item-value="id" item-title="branchName"
                   :label="$t('select') + $t('branch_name')" variant="outlined" rounded
                   clearable></v-autocomplete></v-col><v-col cols="4">
-                <v-autocomplete v-model="product" :items="products" item-value="id" item-title="productName"
+                <v-autocomplete v-model="price.request.productId" :items="products" item-value="id" item-title="productName"
                   :label="$t('select') + $t('product_name')" variant="outlined" rounded
                   clearable></v-autocomplete></v-col></v-row>
           </v-card>
@@ -33,19 +33,18 @@
             <b style="white-space: nowrap; margin-right: 8px">{{ $t("input") }} {{ $t("info") }} {{ $t("price") }}</b>
             <v-divider class="flex-grow-1"></v-divider>
           </div>
-          <v-card elevation="0" variant="outlined" class="pa-5" style="
-                border: 2px solid green;
-                border-radius: 12px;
-                margin-top: 5px;
-              ">
-            <div class="d-flex">
-              <h3 class="pt-1">{{ $t("select_main_currency") }}:</h3><v-radio-group
-                v-model="price.request.selectCurrency" inline>
+          <v-card elevation="0" variant="outlined" class="pa-5" >
+              <v-card variant="outlined" elevation="0" class="mb-5 ">
+                   <div class="d-flex align-center justify-center ml-4">
+              <h3 >{{ $t("select_main_currency") }}:</h3><v-radio-group
+                v-model="price.request.selectCurrency" inline class="ml-4 mt-5">
                 <v-radio label="LAK" value="lak" color="primary"></v-radio>
                 <v-radio label="THB" value="thb" color="primary"></v-radio>
                 <v-radio label="USD" value="usd" color="primary"></v-radio>
               </v-radio-group>
             </div>
+              </v-card>
+         
 
             <v-row>
 
@@ -56,7 +55,7 @@
                   </p>
                 </span>
                 <v-text-field rounded="xl" clearable v-model="price.request.lakUnit"
-                  @input="lak_unit = $formatCurrency(lak_unit)"></v-text-field></v-col>
+                  @input="price.request.lakUnit = formatCurrency(price.request.lakUnit)"></v-text-field></v-col>
               <v-col cols="3">
                 <span>
                   <p>
@@ -64,7 +63,7 @@
                   </p>
                 </span>
                 <v-text-field rounded="xl" clearable v-model="price.request.lakPackage"
-                  @input="lak_package = $formatCurrency(lak_package)"></v-text-field></v-col>
+                  @input="price.request.lakPackage = formatCurrency(price.request.lakPackage)"></v-text-field></v-col>
               <v-col cols="3">
                 <span>
                   <p>
@@ -72,7 +71,7 @@
                   </p>
                 </span>
                 <v-text-field rounded="xl" clearable v-model="price.request.thbUnit"
-                  @input="thb_unit = $formatCurrency(thb_unit)"></v-text-field></v-col>
+                  @input="price.request.thbUnit = formatCurrency(price.request.thbUnit)"></v-text-field></v-col>
               <v-col cols="3">
                 <span>
                   <p>
@@ -80,7 +79,7 @@
                   </p>
                 </span>
                 <v-text-field rounded="xl" clearable v-model="price.request.thbPackage"
-                  @input="thb_package = $formatCurrency(thb_package)"></v-text-field></v-col>
+                  @input="price.request.thbPackage = formatCurrency(price.request.thbPackage)" ></v-text-field></v-col>
               <v-col cols="3">
                 <span>
                   <p>
@@ -88,7 +87,7 @@
                   </p>
                 </span>
                 <v-text-field rounded="xl" clearable v-model="price.request.usdUnit"
-                  @input="usd_unit = $formatCurrency(usd_unit)"></v-text-field></v-col>
+                  @input="price.request.usdUnit = formatCurrency(price.request.usdUnit)"></v-text-field></v-col>
               <v-col cols="3">
                 <span>
                   <p>
@@ -96,14 +95,14 @@
                   </p>
                 </span>
                 <v-text-field rounded="xl" clearable v-model="price.request.usdPackage"
-                  @input="usd_package = $formatCurrency(usd_package)"></v-text-field></v-col></v-row>
+                  @input="price.request.usdPackage = formatCurrency(price.request.usdPackage)"></v-text-field></v-col></v-row>
           </v-card>
         </v-card-text>
         <v-card-actions>
           <v-row justify="start"><v-col cols="12" md="6" sm="6">
-              <v-btn color="grey" class="mr-2" rounded="xl" variant="outlined" @click="price.cloarData()"><v-icon
+              <v-btn color="grey" class="mr-2" rounded="xl" variant="outlined" @click="price.clearData()"><v-icon
                   class="mr-4">mdi-cancel</v-icon>{{ $t("btn_cancel") }}</v-btn>
-              <v-btn v-if="edit == false" color="primary" rounded="xl" variant="outlined" type="submit"
+              <v-btn v-if="price.request.edit == false" color="primary" rounded="xl" variant="outlined" type="submit"
                 @click="insertPrict()"><v-icon class="mr-4">mdi-content-save-all</v-icon>{{ $t("save") }}</v-btn>
               <v-btn v-else color="purple" rounded="xl" variant="outlined" type="submit" @click="updatePrice()"><v-icon
                   class="mr-4">mdi-content-save-all</v-icon>{{ $t("btn_edit")
@@ -114,12 +113,31 @@
 
       <v-card rounded="xl" style="margin-top: 5px">
         <v-card-text>
-          <v-data-table :headers="headers" :items="allData" :search="search" hide-actions class="elevation-1"
+          <v-data-table :headers="headers" :items="allDataPrice" :search="search" hide-actions class="elevation-1"
             pagination.sync="pagination" item-key="id">
             <template #item.id="{ index, item }">
               {{ index + 1 }}
             </template>
+             <template #item.lakPackage="{  item }">
+              {{  formatCurrency(item.lakPackage)  }}
+            </template>
+             <template #item.lakUnit="{  item }">
+              {{  formatCurrency(item.lakUnit)  }}
+            </template>
+             <template #item.thbUnit="{  item }">
+              {{  formatCurrency(item.thbUnit)  }}
+            </template>
+             <template #item.thbPackage="{  item }">
+              {{  formatCurrency(item.thbPackage)  }}
+            </template>
+             <template #item.usdUnit="{  item }">
+              {{  formatCurrency(item.usdUnit)  }}
+            </template>
+             <template #item.usdPackage="{  item }">
+              {{  formatCurrency(item.usdPackage)  }}
+            </template>
             <template #item.actions="{ item }">
+             
               <div class="d-flex">
                 <v-btn color="blue" rounded="xl" variant="outlined" @click="showEdit(item)"><v-icon>mdi-pen</v-icon>{{
                   $t("btn_edit") }}</v-btn>
@@ -129,7 +147,7 @@
         </v-card-text>
       </v-card>
     </v-card>
-    <MLoading v-model="loading"></MLoading>
+    <MLoading v-model="price.loading"></MLoading>
   </v-container>
 </template>
 
@@ -137,25 +155,16 @@
 import { ref } from "vue";
 const { mainApi } = useApi();
 const { t } = useI18n();
-const products = ref([]);
-const product = ref(null);
-const branches = ref([]);
-const branch = ref(null);
-const lak_unit = ref(null);
-const lak_package = ref(null);
-const thb_unit = ref(null);
-const thb_package = ref(null);
-const usd_unit = ref(null);
-const usd_package = ref(null);
-const search = ref(null);
-const allData = ref([]);
+const {formatCurrency} = useInputFormatNumber();
 const key_id = ref(null);
 const edit = ref(false);
 const loading = ref(false);
-const CurrencyRadio = ref("lak");
 const price = usePriceStore();
 const { showSuccess, showWarning, showError } = useAlert();
-
+const allDataPrice = computed(() => price.prices);
+const products = ref([]);
+const branches = ref([]);
+const search = ref("");
 // role for feild
 const rules = [
   (value) => {
@@ -194,57 +203,34 @@ const headers = ref([
 
 // Method========================
 onMounted(() => {
-  getAllPrices();
+  price.getAllPrices();
   getProducts();
   getBranches();
 });
 
 const updatePrice = async () => {
-  const result = await price.request.updatePrice();
+  const result = await price.updatePrice();
   if (result.status == "00") {
     price.loading = false;
-    price.cloarData();
-    getAllPrices();
+    price.clearData();
+    
+    await price.getAllPrices();
     showSuccess(result.message);
   } else {
     showError(result.message);
   }
-  // loading.value = true;
-  // var body = {
-  //   priceId: key_id.value,
-  //   branchId: branch.value,
-  //   productId: product.value,
-  //   lakUnit: lak_unit.value,
-  //   lakPackage: lak_package.value,
-  //   thbUnit: thb_unit.value,
-  //   thbPackage: thb_package.value,
-  //   usdUnit: usd_unit.value,
-  //   usdPackage: usd_package.value,
-  //   updateBy: localStorage.getItem("user"),
-  //   lak: CurrencyRadio.value == "lak" ? 1 : 0,
-  //   thb: CurrencyRadio.value == "thb" ? 1 : 0,
-  //   usd: CurrencyRadio.value == "usd" ? 1 : 0,
-  // };
-  // const res = await mainApi.put("updatePrice", body);
-  // if (res.data.status == "00") {
-  //   loading.value = false;
-  //   cloarData();
-  //   getAllPrices();
-  //   showSuccess(res.data.message);
-  // } else {
-  //   showError(res.data.message);
-  // }
+  
 };
 const showEdit = (item) => {
   price.request.edit = true;
   price.request.branchId = item.branchId;
   price.request.productId = item.productId;
-  price.request.lakUnit = item.lakUnit;
-  price.request.lakPackage = item.lakPackage;
-  price.request.thbUnit = item.thbUnit;
-  price.request.thbPackage = item.thbPackage;
-  price.request.usdUnit = item.usdUnit;
-  price.request.usdPackage = item.usdPackage;
+  price.request.lakUnit = formatCurrency(item.lakUnit);
+  price.request.lakPackage = formatCurrency(item.lakPackage);
+  price.request.thbUnit = formatCurrency(item.thbUnit);
+  price.request.thbPackage = formatCurrency(item.thbPackage);
+  price.request.usdUnit = formatCurrency(item.usdUnit);
+  price.request.usdPackage = formatCurrency(item.usdPackage);
   price.request.lak = item.lak;
   price.request.thb = item.thb;
   price.request.usd = item.usd;
@@ -257,27 +243,21 @@ const showEdit = (item) => {
     price.request.selectCurrency = "usd";
   }
 };
-const getAllPrices = async () => {
-  const res = await mainApi.post("getPrices");
-  if (res.data.status == "00") {
-    allData.value = res.data.dataRes;
-    console.log("allData=============", allData.value);
-  } else {
-    showError(res.data.message);
-  }
-};
+
 const insertPrict = async () => {
 
   if (!price.request.branchId && !price.request.productId) {
     showWarning(t("please_select_branch_product"));
     return;
   } else {
-    if (price.request.lakPackage == null || price.request.lakUnit == null || price.request.thbPackage == null || price.request.thbUnit == null || price.request.usdPackage == null || price.request.usdUnit == null) {
+    if (price.request.lakPackage == null && price.request.lakUnit == null && price.request.thbPackage == null && price.request.thbUnit == null && price.request.usdPackage == null && price.request.usdUnit == null) {
       showWarning(t("please_input_price"));
       return;
     }
     price.loading = true;
-    await price.request.insertPrict();
+    await price.insertPrice();
+    await price.getAllPrices();
+    price.clearData();
     price.loading = false;
     return;
   }

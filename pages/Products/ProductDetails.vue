@@ -4,7 +4,7 @@
       <v-card rounded="xl"><v-card-text>
           <v-row><v-col cols="12" md="6" sm="6">
               <v-text-field rounded="xl" :label="$t('search')" clearable prepend-inner-icon="mdi-magnify"
-                v-model="search" :rules="rules"></v-text-field></v-col></v-row>
+                v-model="search" ></v-text-field></v-col></v-row>
           <v-row><v-col cols="3" v-for="i in 16"><v-card width="280px" height="300px" style="
                   background-image: url(/image.png);
                   background-size: cover;

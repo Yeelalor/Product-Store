@@ -47,6 +47,16 @@
         item-key="id" :search="search">
         <template #item.id="{ index, item }">
           {{ index + 1 }}
+       
+        </template>
+           <template #item.lak="{  item }">
+          {{ formatCurrency(item.lak) }}
+        </template>
+         <template #item.thb="{  item }">
+          {{ formatCurrency(item.thb) }}
+        </template>
+         <template #item.usd="{  item }">
+          {{ formatCurrency(item.usd) }}
         </template>
       </v-data-table>
     </v-card>
@@ -71,6 +81,7 @@ const branch = ref(null);
 const branches = ref([]);
 const search = ref(null);
 const { formatCurrency } = useInputFormatNumber();
+const {formatNumber} = useNumberFormat();
 const { showSuccess } = useAlert();
 // role for feild
 const rules = [
@@ -117,9 +128,9 @@ const insertExchange = async () => {
     console.log("✅ Form is valid!");
     const body = {
       branchId: branch.value,
-      lak: lak_rate.value,
-      thb: thb_rate.value,
-      usd: usd_rate.value,
+      lak: lak_rate.value.replace(/,/g, '') ,
+      thb: thb_rate.value.replace(/,/g, '') ,
+      usd: usd_rate.value.replace(/,/g, '') ,
     };
     const insert = await mainApi.post("/insertExchanges", body);
     if (insert.data.status == "00") {
