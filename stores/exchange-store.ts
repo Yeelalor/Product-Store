@@ -18,15 +18,32 @@ export const useExchangeStore = defineStore('exchangeStore', {
             const { formatCurrency } = useInputFormatNumber();
             return formatCurrency(value);
         },
-        calculateProductPrice(productItem: ProductListModel, exchange: ExChangeModel) {
+        calculateProductPrice(productItem: ProductListModel, exchange: ExChangeModel, productSize: string) {
+
             if (productItem.thb === 1) {
-                const result = productItem.qty * productItem.thbPackage * (exchange.thb ?? 0);
+                if (productSize === 'package') {
+                    const result = productItem.thbPackage * (exchange.thb);
+                    return this.callFormat(result);
+                } else {
+                    const result = productItem.thbUnit * (exchange.thb);
+                    return this.callFormat(result);
+                }
+            } else if (productItem.usd === 1) {
+                if (productSize === 'package') {
+                    const result = productItem.usdUnit * (exchange.usd);
+                    return this.callFormat(result);
+                } else {
+                    const result = productItem.usdUnit * (exchange.usd);
+                    return this.callFormat(result);
+                }
+            } else if (productItem.thbPackage === 1) {
+                const result = productItem.thbPackage * (exchange.thb);
                 return this.callFormat(result);
             } else if (productItem.usd === 1) {
-                const result = productItem.qty * productItem.thbUnit * (exchange.thb ?? 0);
+                const result = productItem.usdUnit * (exchange.usd);
                 return this.callFormat(result);
             } else {
-                const result = productItem.qty * productItem.lakUnit * (exchange.lak ?? 0);
+                const result = productItem.lakUnit;
                 return this.callFormat(result);
             }
         },

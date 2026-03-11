@@ -19,7 +19,7 @@ export interface ProductListModel {
     bvillage: string;
     bdistrict: string;
     size: String;
-    qty: 0;
+    qty: 1;
     totalThb: number;
     totalLak: number;
     totalUsd: number;

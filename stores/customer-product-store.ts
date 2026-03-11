@@ -18,6 +18,14 @@ export const useCustomerProductsStore = defineStore("customerProducts", {
             const { mainApi } = useApi();
             return mainApi;
         },
+        cearProductData() {
+            this.viewDetails_for_Order = false;
+            this.quantity = 1;
+            this.size = "package";
+            this.image_list = [];
+            console.log("clear data=============", this.product);
+
+        },
         callExchante() {
             const exchangeStore = useExchangeStore();
             return exchangeStore;
@@ -32,27 +40,18 @@ export const useCustomerProductsStore = defineStore("customerProducts", {
                 this.product.size = size;
             }
         },
+        addToCart() {
+            const cartStore = useCartStore();
+            if (this.product) {
+                cartStore.addToCart(this.product);
+                // CallSwal({ icon: "success", title: "Success", text: "Product added to cart" });
+                this.cearProductData();
+            }
+        },
         minusQuantity() {
             if (this.quantity > 0) {
                 this.quantity -= 1;
-                if (this.product) {
-                    this.product.qty = this.quantity as any;
-                    if (this.product.size === "package") {
-                        const totalThb = this.product.qty * this.product.thbPackage;
-                        const totalLak = this.product.qty * this.product.lakPackage;
-                        const totalUsd = this.product.qty * this.product.usdPackage;
-                        this.product.totalThb = totalThb;
-                        this.product.totalLak = totalLak;
-                        this.product.totalUsd = totalUsd;
-                    } else {
-                        const totalThb = this.product.qty * this.product.thbUnit;
-                        const totalLak = this.product.qty * this.product.lakUnit;
-                        const totalUsd = this.product.qty * this.product.usdUnit;
-                        this.product.totalLak = totalLak;
-                        this.product.totalUsd = totalUsd;
-                        this.product.totalThb = totalThb;
-                    }
-                }
+                this.product!.qty = this.quantity as any;
             }
 
         },
@@ -60,21 +59,6 @@ export const useCustomerProductsStore = defineStore("customerProducts", {
             this.quantity += 1;
             if (this.product) {
                 this.product.qty = this.quantity as any;
-                if (this.product.size === "package") {
-                    const totalThb = this.product.qty * this.product.thbPackage;
-                    const totalLak = this.product.qty * this.product.lakPackage;
-                    const totalUsd = this.product.qty * this.product.usdPackage;
-                    this.product.totalThb = totalThb;
-                    this.product.totalLak = totalLak;
-                    this.product.totalUsd = totalUsd;
-                } else {
-                    const totalThb = this.product.qty * this.product.thbUnit;
-                    const totalLak = this.product.qty * this.product.lakUnit;
-                    const totalUsd = this.product.qty * this.product.usdUnit;
-                    this.product.totalLak = totalLak;
-                    this.product.totalUsd = totalUsd;
-                    this.product.totalThb = totalThb;
-                }
             }
         },
         selectItem(item: ProductListModel) {

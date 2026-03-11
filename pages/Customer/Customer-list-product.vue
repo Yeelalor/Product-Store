@@ -23,7 +23,7 @@
                   v-model="search"
                 ></v-text-field>
 
-                <v-badge location="top right" color="red" content="25">
+                <v-badge location="top right" color="red" :content="cartList.length">
                   <v-icon class="mr-2" size="x-large">mdi-cart-heart</v-icon>
                 </v-badge>
               </div>
@@ -73,7 +73,9 @@
                   prepend-inner-icon="mdi-magnify"
                   v-model="search"
                 ></v-text-field
-                ><v-badge class="ml-4" location="top right" color="red" content="25">
+                ><v-badge class="ml-4" location="top right" color="red" :content="cartList.length" @click="$router.push('/Customer/Customer-Order-list') ">
+                  
+               
                   <v-icon class="mr-2" size="x-large">mdi-cart-heart</v-icon>
                 </v-badge>
               </div>
@@ -96,7 +98,7 @@
                       {{
                         exChangeRate.calculateProductPrice(
                           item,
-                          branchExchange?.[0]
+                          branchExchange?.[0],'unit'
                         )
                       }}
                     </p>
@@ -105,17 +107,15 @@
                 </template>
                 <template #item.lakPackage="{ item }">
                   <td>
-                    <p v-if="item.thbPackage != 0 && item.thbPackage != null">
+                    <p >
                       {{
-                      item.thb==1||item.usd==1?  exChangeRate.calculateProductPrice(
+                        exChangeRate.calculateProductPrice(
                           item,
-                          branchExchange?.[0]
-                        ): formatCurrency(item.lakPackage)
+                          branchExchange?.[0],'package'
+                        )
                       }}
                     </p>
-                    <p v-else>
-                      {{ formatCurrency(item.lakPackage) }}
-                    </p>
+                    
                   </td>
                 </template>
                 <template #item.thbUnit="{ item }">
@@ -162,7 +162,7 @@
         <v-card-title primary-title class="d-flex justify-startspace-between">
           <h4>{{ $t("product_details") }}</h4>
           <v-spacer></v-spacer>
-          <v-btn color="red" @click="product.viewDetails_for_Order = false">X</v-btn>
+          <v-btn color="red" @click="product.cearProductData()">X</v-btn>
         </v-card-title>
         <v-divider></v-divider>
         <v-card-text>
@@ -212,7 +212,6 @@
                     <h4>{{ $t("price_package") }}:</h4>
                     <h4>{{ $t("price_unit") }}:</h4>
                     <h4>{{ $t("size") }}:</h4>
-                    <h4>{{ $t("total") }}:</h4>
                     <br /> 
                     <br />
                     <h4 class="mt-2">{{ $t("add_qty") }}:</h4>
@@ -222,22 +221,16 @@
                       :class="product.size == 'package' ? 'text-primary' : 'text-black'"
                     >
                       {{
-                        productDetailsOnview?.thbPackage != 0
-                          ? exChangeRate.calculateProductPrice(
+                      exChangeRate.calculateProductPrice(
                               productDetailsOnview,
-                              branchExchange?.[0]
-                            )
-                          : formatCurrency(productDetailsOnview?.lakPackage)
+                              branchExchange?.[0],'package')
                       }}
                     </h4>
                     <h4 :class="product.size == 'unit' ? 'text-primary' : 'text-black'">
-                      {{
-                        productDetailsOnview?.thbUnit != 0
-                          ? exChangeRate.calculateProductPrice(
+                       {{
+                      exChangeRate.calculateProductPrice(
                               productDetailsOnview,
-                              branchExchange?.[0]
-                            )
-                          : formatCurrency(productDetailsOnview?.lakUnit)
+                              branchExchange?.[0],'unit')
                       }}
                     </h4>
                     <v-btn
@@ -255,10 +248,10 @@
                     >
                     <h4> {{product.product.size=='package' ? formatCurrency(product.product.total) : '' }}</h4>
                     <br />
-                    <br />
+                    <br>
                     <div class="d-flex align-center">
                       <v-icon @click="product.minusQuantity()">mdi-minus</v-icon>
-                      <v-btn color="primary">{{ product.product.qty }}</v-btn>
+                      <v-btn color="primary">{{ product.product.qty==null? 1 : product.product.qty }}</v-btn>
                       <v-icon @click="product.addQuantity()" class="mr-5"
                         >mdi-plus</v-icon
                       >
@@ -273,7 +266,7 @@
                 ><v-col cols="6"
                   ><v-btn color="red" class="ma-5" variant="outlined"
                     ><v-icon> mdi-cash-100 </v-icon>{{ $t("buy_now") }}</v-btn
-                  ><v-btn color="primary" class="ma-5" variant="outlined"
+                  ><v-btn color="primary" class="ma-5" variant="outlined" @click="product.addToCart()"
                     ><v-icon> mdi-cart-plus </v-icon>{{ $t("add_cart") }}</v-btn
                   ></v-col
                 ></v-row
@@ -313,12 +306,17 @@ const amountTHB = ref(0);
 const view_grid = ref(false);
 const view_list = ref(false);
 const selectedProduct = ref([]);
-const images = ref(["/image.png", "/image.png", "/image.png", "/image.png"]);
+const cartList = ref([]);
 
 const branchExchange = computed(() => exChangeRate.exchanges);
 onMounted(() => {
+  cartList.value = localStorage.getItem("cart")
+    ? JSON.parse(localStorage.getItem("cart")!)
+    : [] ;
   product.fetchProducts();
   exChangeRate.getExchangeByBranch(1);
+  // console.log("qty===================",productDetailsOnview.value.qty);
+  
 });
 const groupedImages = computed(() => {
   if (!Array.isArray(images.value)) return [];
