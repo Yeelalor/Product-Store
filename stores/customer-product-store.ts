@@ -23,7 +23,6 @@ export const useCustomerProductsStore = defineStore("customerProducts", {
             this.quantity = 1;
             this.size = "package";
             this.image_list = [];
-            console.log("clear data=============", this.product);
 
         },
         callExchante() {
@@ -50,8 +49,10 @@ export const useCustomerProductsStore = defineStore("customerProducts", {
         },
         minusQuantity() {
             if (this.quantity > 0) {
+                this.product!.size = this.size as any;
                 this.quantity -= 1;
-                this.product!.qty = this.quantity as any;
+                // this.product!.qty = this.quantity as any;
+
             }
 
         },
@@ -59,9 +60,12 @@ export const useCustomerProductsStore = defineStore("customerProducts", {
             this.quantity += 1;
             if (this.product) {
                 this.product.qty = this.quantity as any;
+                // this.product!.size = this.size as any;
             }
         },
         selectItem(item: ProductListModel) {
+            console.log("=============item============:", item);
+
             this.image_list = [];
             this.viewDetails_for_Order = true;
             this.product = item;
@@ -72,6 +76,8 @@ export const useCustomerProductsStore = defineStore("customerProducts", {
             const res = await this.callapi().get("getCustomerProductList");
             if (res.data.status == "00") {
                 this.products = res.data.dataRes;
+                console.log("get products=================", this.products);
+
             } else {
                 CallSwal({ icon: "error", title: "Error", text: res.data.message });
             }

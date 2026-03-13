@@ -296,6 +296,7 @@ const { showWarning } = useAlert();
 const exChangeRate = useExchangeStore();
 const imageDetails = ref([]);
 const product = useCustomerProductsStore();
+const cartStore=useCartStore();
 
 const pDetails = computed(() => product.products);
 const productDetailsOnview = computed(() => product.product);
@@ -306,16 +307,14 @@ const amountTHB = ref(0);
 const view_grid = ref(false);
 const view_list = ref(false);
 const selectedProduct = ref([]);
-const cartList = ref([]);
+const cartList = computed(() => cartStore.cartItems);
 
 const branchExchange = computed(() => exChangeRate.exchanges);
 onMounted(() => {
-  cartList.value = localStorage.getItem("cart")
-    ? JSON.parse(localStorage.getItem("cart")!)
-    : [] ;
+   cartStore.loadCart();
   product.fetchProducts();
   exChangeRate.getExchangeByBranch(1);
-  // console.log("qty===================",productDetailsOnview.value.qty);
+  product.product.size=product.size;
   
 });
 const groupedImages = computed(() => {

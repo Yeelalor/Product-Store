@@ -3,15 +3,12 @@
  <v-row  class="mt-4">
             <v-col cols="12"  >
               <v-data-table
-                v-model="selectedProduct"
                 :headers="headers"
                 :items="product"
-                show-select
                 class="elevation-1"
                 item-value="priceId"
               >
-                <template #item.lakUnit="{ item }" v-if="product !== []">
-                  <td>
+                <template #item.lakUnit="{ item }" >
                     <p >
                       {{
                         exChangeRate.calculateProductPrice(
@@ -20,11 +17,8 @@
                         )
                       }}
                     </p>
-                    
-                  </td>
                 </template>
-                <template #item.lakPackage="{ item }" v-if="product !== []">
-                  <td>
+                <template #item.lakPackage="{ item }" >
                     <p >
                       {{
                         exChangeRate.calculateProductPrice(
@@ -33,8 +27,6 @@
                         )
                       }}
                     </p>
-                    
-                  </td>
                 </template>
                 <template #item.thbUnit="{ item }">
                   <td>{{ formatCurrency(item.thbUnit) }}</td>
@@ -71,23 +63,29 @@
 import { ref, computed, onMounted } from "vue";
 const product = ref([])
 
-if (process.client) {
-  const cart = localStorage.getItem("cart")
-  product.value = cart ? JSON.parse(cart) : []
-}
+
 const exChangeRate = useExchangeStore();
 const selectedProduct = ref([]);
 const { formatCurrency } = useInputFormatNumber();
-const branchExchange = computed(() => exChangeRate.exchanges);
+const branchExchange = computed(() => exChangeRate.exchanges|| []);
+const exchange = computed(() => branchExchange.value?.[0] || null)
+
+if (process.client) {
+
+  exChangeRate.getExchangeByBranch(1)
+  const cart = localStorage.getItem("cart")
+  product.value = cart ? JSON.parse(cart) : []
+}
+
 onMounted(() => {
   exChangeRate.getExchangeByBranch(1)
+  // const cart = localStorage.getItem("cart")
   // product.value = cart ? JSON.parse(cart) : []
 
-  // console.log("product length:", product.value.length)
-  // console.log("first thb:", product.value?.[0]?.thb)
+  console.log("product length:", product.value.length)
+  console.log("first thb:", product.value?.[0]?.thb)
 })
 const headers = [
-  { title: "Select", key: "data-table-select" },
   { title: $t("image"), key: "packageUrl" },
   { title: $t("product_name"), key: "productName" },
   { title: $t("price_unit") + " (LAK)", key: "lakUnit" },

@@ -19,28 +19,30 @@ export const useExchangeStore = defineStore('exchangeStore', {
             return formatCurrency(value);
         },
         calculateProductPrice(productItem: ProductListModel, exchange: ExChangeModel, productSize: string) {
-
-            if (productItem.thb === 1) {
+            console.log("thb=11==================", productItem);
+            console.log("thb=22==================", productItem.thb);
+            // console.log("ex=111==================", exchange.thb);
+            if (productItem?.thb === 1) {
                 if (productSize === 'package') {
-                    const result = productItem.thbPackage * (exchange.thb);
+                    const result = productItem.thbPackage * (exchange?.thb);
                     return this.callFormat(result);
                 } else {
-                    const result = productItem.thbUnit * (exchange.thb);
+                    const result = productItem.thbUnit * (exchange?.thb);
                     return this.callFormat(result);
                 }
             } else if (productItem.usd === 1) {
                 if (productSize === 'package') {
-                    const result = productItem.usdUnit * (exchange.usd);
+                    const result = productItem.usdUnit * (exchange?.usd);
                     return this.callFormat(result);
                 } else {
-                    const result = productItem.usdUnit * (exchange.usd);
+                    const result = productItem.usdUnit * (exchange?.usd);
                     return this.callFormat(result);
                 }
             } else if (productItem.thbPackage === 1) {
-                const result = productItem.thbPackage * (exchange.thb);
+                const result = productItem.thbPackage * (exchange?.thb);
                 return this.callFormat(result);
             } else if (productItem.usd === 1) {
-                const result = productItem.usdUnit * (exchange.usd);
+                const result = productItem.usdUnit * (exchange?.usd);
                 return this.callFormat(result);
             } else {
                 const result = productItem.lakUnit;

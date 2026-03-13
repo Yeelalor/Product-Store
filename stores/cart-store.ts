@@ -34,13 +34,13 @@ export const useCartStore = defineStore("cart", {
             const existingItem = this.cartItems.find((cartItem) => cartItem.productId === item.productId);
             if (existingItem) {
                 existingItem.qty += item.qty;
+
             } else {
                 this.cartItems.push({
                     ...item
                 });
             }
             this.saveCart();
-            console.log("get item===========", localStorage.getItem('cart'));
 
         },
         increaseQty(item: any) {

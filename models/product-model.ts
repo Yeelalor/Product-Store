@@ -1,3 +1,9 @@
+
+export interface ProductResponseModel {
+    status: string;
+    message: string;
+    dataRes: ProductListModel[];
+}
 export interface ProductListModel {
     companyName: string;
     branchName: string;
@@ -26,5 +32,4 @@ export interface ProductListModel {
     lak: number;
     thb: number;
     usd: number;
-
 }
