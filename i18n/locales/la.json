@@ -87,5 +87,12 @@
   "pack": "ແກັດ",
   "buy_now": "ຊື້ດຽວນີ້",
   "add_cart": "ເພີ່ມໃສ່ກະຕ່າຊື້",
-  "select_main_currency": "ເລືອກສະກຸນເງິນຫຼັກ"
+  "select_main_currency": "ເລືອກສະກຸນເງິນຫຼັກ",
+  "add_or_minus_qty": "ເພີ່ມ ຫຼື ລົບ ຈໍານວນສິນຄ້າ",
+  "payment": "ຊຳລະ",
+  "cancel_payment": "ຍົກເລີກການຊຳລະ",
+  "list_order": "ລາຍການສັ່ງຊື້",
+  "rows_per_page": "ຈຳນວນລາຍການ",
+  "item_total": "ຈຳນວນລາຍການທັງໝົດ",
+  "item": "ລາຍການ"
 }

@@ -87,5 +87,12 @@
   "pack": "Package",
   "buy_now": "Buy Now",
   "add_cart": "Add to Cart",
-  "select_main_currency": "Select Main Currency"
+  "select_main_currency": "Select Main Currency",
+  "add_or_minus_qty": "Increase or decrease items",
+  "payment": "Payment",
+  "cancel_payment": "Cancel Payment",
+  "list_order": "Order List",
+  "rows_per_page": "Items per page",
+  "item_total": "Total Items",
+  "item": "Items"
 }

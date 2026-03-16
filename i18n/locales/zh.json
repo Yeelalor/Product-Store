@@ -86,5 +86,12 @@
   "pack": "包裹",
   "buy_now": "立即购买",
   "add_cart": "添加到购物车",
-  "select_main_currency": "选择主货币"
+  "select_main_currency": "选择主货币",
+  "add_or_minus_qty": "增加或减少项目",
+  "payment": "支付",
+  "cancel_payment": "取消付款",
+  "list_order": "订单列表",
+  "rows_per_page": "每页显示项目",
+  "item_total": "Total Items",
+  "item": "项目"
 }

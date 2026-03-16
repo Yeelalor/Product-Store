@@ -7,9 +7,15 @@ export const useCartStore = defineStore("cart", {
         totalAmountThb: 0,
     }),
     getters: {
-        totalPrice(state) {
+        totalPriceLak(state) {
             return state.cartItems.reduce((total, item) => {
-                const itemTotal = (item.lakPackage * item.qty) + (item.thbPackage * item.qty);
+                const itemTotal = item.size === "package" && item.lak == 1 ? item.lakPackage * item.qty : item.lakUnit * item.qty;
+                return total + itemTotal;
+            }, 0);
+        },
+        totalPriceThb(state) {
+            return state.cartItems.reduce((total, item) => {
+                const itemTotal = item.size === "package" && item.thb == 1 ? item.thbPackage * item.qty : item.thbUnit * item.qty;
                 return total + itemTotal;
             }, 0);
         },
@@ -57,6 +63,8 @@ export const useCartStore = defineStore("cart", {
             if (existingItem && existingItem.qty > 1) {
                 existingItem.qty -= 1;
                 this.saveCart();
+            } else {
+                this.removeItem(item);
             }
         },
         removeItem(item: any) {
@@ -69,6 +77,7 @@ export const useCartStore = defineStore("cart", {
         },
         clearCart() {
             this.cartItems = [];
+            localStorage.removeItem('cart');
             this.totalAmountLak = 0;
             this.totalAmountThb = 0;
         },

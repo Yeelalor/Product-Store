@@ -87,5 +87,12 @@
   "pack": "bưu kiện",
   "buy_now": "Mua ngay",
   "add_cart": "Thêm vào giỏ hàng",
-  "select_main_currency": "Chọn đơn vị tiền tệ chính"
+  "select_main_currency": "Chọn đơn vị tiền tệ chính",
+  "add_or_minus_qty": "Tăng hoặc giảm số lượng mặt hàng",
+  "payment": "sự chi trả",
+  "cancel_payment": "hủy thanh toán",
+  "list_order": "Danh sách đặt hàng",
+  "rows_per_page": "số mục trên mỗi trang",
+  "item_total": "tổng số mặt hàng",
+  "item": "mặt hàng"
 }

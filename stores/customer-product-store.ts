@@ -51,7 +51,7 @@ export const useCustomerProductsStore = defineStore("customerProducts", {
             if (this.quantity > 0) {
                 this.product!.size = this.size as any;
                 this.quantity -= 1;
-                // this.product!.qty = this.quantity as any;
+                this.product!.qty = this.quantity as any;
 
             }
 
@@ -60,7 +60,7 @@ export const useCustomerProductsStore = defineStore("customerProducts", {
             this.quantity += 1;
             if (this.product) {
                 this.product.qty = this.quantity as any;
-                // this.product!.size = this.size as any;
+                this.product!.size = this.size as any;
             }
         },
         selectItem(item: ProductListModel) {

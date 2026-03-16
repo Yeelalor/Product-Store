@@ -313,8 +313,11 @@ const branchExchange = computed(() => exChangeRate.exchanges);
 onMounted(() => {
    cartStore.loadCart();
   product.fetchProducts();
+//   if(product !=null)
+// {
+//  product.product.size=product?.size;
+// } 
   exChangeRate.getExchangeByBranch(1);
-  product.product.size=product.size;
   
 });
 const groupedImages = computed(() => {
