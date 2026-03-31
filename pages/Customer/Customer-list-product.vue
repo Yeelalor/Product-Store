@@ -92,7 +92,7 @@
                 class="elevation-1"
                 item-value="priceId"
               >
-                <template #item.lakUnit="{ item }">
+                <template #[`item.lakUnit`]="{ item }">
                   <td>
                     <p >
                       {{
@@ -105,7 +105,7 @@
                     
                   </td>
                 </template>
-                <template #item.lakPackage="{ item }">
+                <template #[`item.lakPackage`]="{ item }">
                   <td>
                     <p >
                       {{
@@ -118,20 +118,20 @@
                     
                   </td>
                 </template>
-                <template #item.thbUnit="{ item }">
+                <template #[`item.thbUUnit`]="{ item }">
                   <td>{{ formatCurrency(item.thbUnit) }}</td>
                 </template>
-                <template #item.thbPackage="{ item }">
+                <template #[`item.thbPackage`]="{ item }">
                   <td>{{ formatCurrency(item.thbPackage) }}</td>
                 </template>
-                <template #item.packageUrl="{ item }">
+                <template #[`item.packageUrl`]="{ item }">
                   <td>
                     <v-avatar color="primary" size="48">
                       <v-img :src="item.packageUrl" alt="User" />
                     </v-avatar>
                   </td>
                 </template>
-                <template #item.actions="{ item }">
+                <template #[`item.actions`]="{ item }">
                   <td>
                     <v-btn
                       color="primary"
@@ -181,7 +181,7 @@
                   <v-slide-group-item
                     v-for="n in product.image_list.length"
                     :key="n"
-                    v-slot="{ isSelected, toggle, selectedClass }"
+                    v-slot="{  toggle, selectedClass }"
                   >
                     <v-card
                       :class="['ma-4', selectedClass]"
@@ -319,17 +319,6 @@ onMounted(() => {
 // } 
   exChangeRate.getExchangeByBranch(1);
   
-});
-const groupedImages = computed(() => {
-  if (!Array.isArray(images.value)) return [];
-
-  const result: string[][] = [];
-
-  for (let i = 0; i < images.value.length; i += 2) {
-    result.push(images.value.slice(i, i + 2));
-  }
-
-  return result;
 });
 
 const headers = [

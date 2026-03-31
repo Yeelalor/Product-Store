@@ -18,6 +18,45 @@ export const useExchangeStore = defineStore('exchangeStore', {
             const { formatCurrency } = useInputFormatNumber();
             return formatCurrency(value);
         },
+        convertRateToLak(value: number, rate: number) {
+            if (rate) {
+                const result = value * rate;
+                return result;
+            } else {
+                return value;
+            }
+        },
+        calculateProductPriceWithQty(productItem: ProductListModel, exchange: ExChangeModel, productSize: string, qty: number) {
+            console.log("=================", productItem, exchange, productSize, qty);
+
+            if (productItem?.thb === 1) {
+                if (productSize === 'package') {
+                    const result = productItem.thbPackage * (exchange?.thb) * qty;
+                    return this.callFormat(result);
+                } else {
+                    const result = productItem.thbUnit * (exchange?.thb) * qty;
+                    return this.callFormat(result);
+                }
+            } else if (productItem.usd === 1) {
+                if (productSize === 'package') {
+                    const result = productItem.usdPackage * (exchange?.usd) * qty;
+                    return this.callFormat(result);
+                } else {
+                    const result = productItem.usdUnit * (exchange?.usd) * qty;
+                    return this.callFormat(result);
+                }
+
+            } else {
+                if (productSize === 'package') {
+                    const result = productItem.lakPackage * qty;
+                    return this.callFormat(result);
+                } else {
+                    const result = productItem.lakUnit * qty;
+                    return this.callFormat(result);
+                }
+            }
+        },
+
         calculateProductPrice(productItem: ProductListModel, exchange: ExChangeModel, productSize: string) {
             console.log("thb=11==================", productItem);
             console.log("thb=22==================", productItem.thb);
@@ -32,21 +71,22 @@ export const useExchangeStore = defineStore('exchangeStore', {
                 }
             } else if (productItem.usd === 1) {
                 if (productSize === 'package') {
-                    const result = productItem.usdUnit * (exchange?.usd);
+                    const result = productItem.usdPackage * (exchange?.usd);
                     return this.callFormat(result);
                 } else {
                     const result = productItem.usdUnit * (exchange?.usd);
                     return this.callFormat(result);
                 }
-            } else if (productItem.thbPackage === 1) {
-                const result = productItem.thbPackage * (exchange?.thb);
-                return this.callFormat(result);
-            } else if (productItem.usd === 1) {
-                const result = productItem.usdUnit * (exchange?.usd);
-                return this.callFormat(result);
+
             } else {
-                const result = productItem.lakUnit;
-                return this.callFormat(result);
+                if (productSize === 'package') {
+                    const result = productItem.lakPackage;
+                    return this.callFormat(result);
+                } else {
+                    const result = productItem.lakUnit;
+                    return this.callFormat(result);
+                }
+
             }
         },
 

@@ -24,8 +24,8 @@
             <v-row
               ><v-col cols="8"></v-col
               ><v-col cols="4">
-                <v-card class="mb-4" rounded="xl" variant="outlined" color="primary">
-                  <v-card-text class="d-flex align-end gap-2">
+                <v-card class="mb-4" rounded="xl" variant="outlined" >
+                  <v-card-text class="d-flex align-end gap-2" color="primary">
                     <div style="width: 50%" class="text-right">
                       <p>{{ $t("item_total") }}:</p>
                       <p>{{ $t("price") + " LAK" }}:</p>
@@ -33,10 +33,17 @@
                     </div>
                     <div style="width: 50%" class="text-right">
                       <p>{{ product.length }} {{ $t("item") }}</p>
-                      <p>{{ formatCurrency(cartStore.totalPriceLak) }}</p>
+                      <p>{{ formatCurrency(convertRateToKip(cartStore.totalPriceThb, branchExchange[0]?.thb || 0)) }}</p>
                       <p>{{ formatCurrency(cartStore.totalPriceThb) }}</p>
                     </div>
+              
                   </v-card-text>
+                        <v-divider>
+                      
+                    </v-divider>
+                    <div class="ml-3 pb-2" text-black>  {{$t('exchange_rate')}}: THB: {{ formatCurrency(branchExchange[0]?.thb) }} | USD: {{ formatCurrency(branchExchange[0]?.usd) }}</div>
+                  
+                  
                 </v-card></v-col
               ></v-row
             >
@@ -49,24 +56,23 @@
               items-per-page="20"
               :items-per-page-text="$t('rows_per_page')"
             >
-              <template #item.id="{ item, index }">
+              <template #[`item.id`]="{ item, index }">
                 <p>
                   {{ index + 1 }}
                 </p>
+                <p hidden>{{item}}</p>
               </template>
-              <template #item.qty="{ item }">
+              <template #[`item.qty`]="{ item }">
                 <p>{{ item.qty }} {{ item.size }}</p>
               </template>
-              <template #item.lakAmount="{ item }">
-                <p>
+              <template #[`item.lakAmount`]="{ item }">
+                <p >
                   {{
-                    item.size == "package"
-                      ? formatCurrency(item.lakPackage * item.qty)
-                      : formatCurrency(item.lakUnit * item.qty)
+                    exChangeRate.calculateProductPriceWithQty(item, branchExchange[0], item.size, item.qty)
                   }}
                 </p>
               </template>
-              <template #item.thbAmount="{ item }">
+              <template #[`item.thbAmount`]="{ item }">
                 <p>
                   {{
                     item.size == "package"
@@ -75,7 +81,7 @@
                   }}
                 </p>
               </template>
-              <template #item.thbUnit="{ item }">
+              <template #[`item.thbUnit`]="{ item }">
                 <p>
                   {{
                     item.size == "package"
@@ -84,7 +90,7 @@
                   }}
                 </p>
               </template>
-              <template #item.lakUnit="{ item }">
+              <template #[`item.lakUnit`]="{ item }">
                 <p>
                   {{
                     item.size == "package"
@@ -93,14 +99,14 @@
                   }}
                 </p>
               </template>
-              <template #item.packageUrl="{ item }">
+              <template #[`item.packageUrl`]="{ item }">
                 <td>
                   <v-avatar color="primary" size="48">
                     <v-img :src="item.packageUrl" alt="User" />
                   </v-avatar>
                 </td>
               </template>
-              <template #item.add_or_minus_qty="{ item }">
+              <template #[`item.add_or_minus_qty`]="{ item }">
                 <div class="d-flex align-center gap-2">
                   <v-icon class="mr-2" @click="cartStore.decreaseQty(item)"
                     >mdi-minus</v-icon
@@ -113,7 +119,7 @@
                   >
                 </div>
               </template>
-              <template #item.actions="{ item }">
+              <template #[`item.actions`]="{ item }">
                 <v-btn
                   variant="outlined"
                   color="red"
@@ -144,7 +150,12 @@ const cartStore = useCartStore();
 
 onMounted(() => {
   cartStore.loadCart();
+  exChangeRate.getExchangeByBranch(1);
 });
+const totalPriceLak = computed(() => cartStore.totalPriceLak);
+const convertRateToKip = (value: number,exchange:number) => {
+  return totalPriceLak.value + exChangeRate.convertRateToLak(value, exchange);
+};
 const headers = [
   { title: "No", key: "id" },
   { title: $t("image"), key: "packageUrl" },
@@ -155,7 +166,6 @@ const headers = [
   { title: $t("amount") + " (LAK)", key: "lakAmount", align: "end" },
   { title: $t("amount") + " (THB)", key: "thbAmount", align: "end" },
   { title: $t("add_or_minus_qty"), key: "add_or_minus_qty" },
-
   { title: $t("actions"), key: "actions" },
 ];
 </script>
