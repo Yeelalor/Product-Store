@@ -5,9 +5,11 @@
       <v-card-title primary-title class="d-flex bg-primary">
         <v-icon class="mr-2" color="white"> mdi-order-numeric-ascending </v-icon>
         {{ $t("list_order") }}
+      
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text>
+        {{product[0]}}
         <v-row class="mt-4 ml-5" justity="center">
           <v-col cols="12">
             <v-btn variant="outlined" color="primary" class="mb-4 mr-6">
