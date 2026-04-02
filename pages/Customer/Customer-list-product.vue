@@ -136,7 +136,7 @@
                     <v-btn
                       color="primary"
                       variant="outlined"
-                      @click="product.selectItem(item)"
+                      @click="product.selectItem(item,branchExchange?.[0])"
                     >
                       <v-icon class="mr-2">mdi-cart-heart</v-icon>
                       {{ $t("order") }}

@@ -32,4 +32,8 @@ export interface ProductListModel {
     lak: number;
     thb: number;
     usd: number;
+    cusId: number;
+    exchangeId: number;
+    usdRate: number;
+    thbRate: number;
 }

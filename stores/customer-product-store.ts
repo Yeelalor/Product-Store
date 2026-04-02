@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import type { ProductListModel } from "@/models/product-model";
+import type { ExChangeModel } from "~/models/exchange-model";
 export const useCustomerProductsStore = defineStore("customerProducts", {
     state: () => ({
         products: [] as ProductListModel[],
@@ -63,14 +64,21 @@ export const useCustomerProductsStore = defineStore("customerProducts", {
                 this.product!.size = this.size as any;
             }
         },
-        selectItem(item: ProductListModel) {
-            console.log("=============item============:", item);
-
-            this.image_list = [];
-            this.viewDetails_for_Order = true;
-            this.product = item;
-            this.image_list.push(item.packageUrl);
-            this.image_list.push(item.unitUrl);
+        selectItem(item: ProductListModel, exchange: ExChangeModel) {
+            const userinfo = localStorage.getItem("customerUserData");
+            if (userinfo) {
+                console.log("=============item============:", JSON.parse(userinfo).custId);
+                this.image_list = [];
+                this.viewDetails_for_Order = true;
+                this.product = item;
+                this.product.cusId = JSON.parse(userinfo).custId;
+                this.product.exchangeId = exchange.id;
+                this.product.usdRate = exchange.usd;
+                this.product.thbRate = exchange.thb;
+                console.log("=============product============:", this.product);
+                this.image_list.push(item.packageUrl);
+                this.image_list.push(item.unitUrl);
+            }
         },
         async fetchProducts() {
             const res = await this.callapi().get("getCustomerProductList");

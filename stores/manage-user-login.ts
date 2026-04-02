@@ -53,7 +53,9 @@ export const useLogin = defineStore("userLogin", {
         localStorage.setItem("user", this.userLogin == null ? "" : this.userLogin);
         console.log("user=====================", this.userLogin);
         console.log("user local storage=====================", localStorage.getItem("user"));
-        this.customerUserData = res.data;
+        this.customerUserData = res.data.dataRes[0];
+        localStorage.setItem("customerUserData", JSON.stringify(this.customerUserData));
+
         navigateTo("/Dasboard");
         return this.customerUserData;
       } else {

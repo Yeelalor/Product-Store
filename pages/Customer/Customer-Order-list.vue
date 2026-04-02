@@ -12,7 +12,7 @@
         {{product[0]}}
         <v-row class="mt-4 ml-5" justity="center">
           <v-col cols="12">
-            <v-btn variant="outlined" color="primary" class="mb-4 mr-6">
+            <v-btn variant="outlined" color="primary" class="mb-4 mr-6" @click="cartStore.cusetomerPayment()">
               <v-icon class="mr-2"> mdi-cash-multiple </v-icon> {{ $t("payment") }}
             </v-btn>
             <v-btn
