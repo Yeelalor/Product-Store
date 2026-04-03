@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import type { ProductListModel } from "@/models/product-model";
 import type { ExChangeModel } from "~/models/exchange-model";
+import type { CustomerPaymentMainList } from "~/models/customer-payment-model";
 export const useCustomerProductsStore = defineStore("customerProducts", {
     state: () => ({
         products: [] as ProductListModel[],
@@ -11,13 +12,32 @@ export const useCustomerProductsStore = defineStore("customerProducts", {
         totalAmountLak: 0,
         totalAmountThb: 0,
         viewDetails_for_Order: false,
-        image_list: [] as string[]
+        image_list: [] as string[],
+        customerPaymentList: [] as CustomerPaymentMainList[],
+        loading: false,
 
     }),
     actions: {
         callapi() {
             const { mainApi } = useApi();
             return mainApi;
+        },
+        async getCustomerPaymentMainList(startDate: string, endDate: string) {
+            this.loading = true;
+            var body = {
+                startDate: startDate,
+                endDate: endDate,
+            }
+            const res = await this.callapi().post("getCustomerPaymentMainLists", body);
+            if (res.data.status == "00") {
+                this.loading = false;
+                this.customerPaymentList = res.data.dataResCusPayMain;
+                console.log("get products=================", this.customerPaymentList);
+
+            } else {
+                this.loading = false;
+                CallSwal({ icon: "error", title: "Error", text: res.data.message });
+            }
         },
         cearProductData() {
             this.viewDetails_for_Order = false;

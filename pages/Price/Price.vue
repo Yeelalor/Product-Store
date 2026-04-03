@@ -115,28 +115,29 @@
         <v-card-text>
           <v-data-table :headers="headers" :items="allDataPrice" :search="search" hide-actions class="elevation-1"
             pagination.sync="pagination" item-key="id">
-            <template #item.id="{ index, item }">
+            <template #[`item.id`]="{ index, item }">
               {{ index + 1 }}
+              <p hidden>{{item}}</p>
             </template>
-             <template #item.lakPackage="{  item }">
+             <template #[`item.lakPackage`]="{  item }">
               {{  formatCurrency(item.lakPackage)  }}
             </template>
-             <template #item.lakUnit="{  item }">
+             <template #[`item.lakUnit`]="{  item }">
               {{  formatCurrency(item.lakUnit)  }}
             </template>
-             <template #item.thbUnit="{  item }">
+             <template #[`item.thbUnit`]="{  item }">
               {{  formatCurrency(item.thbUnit)  }}
             </template>
-             <template #item.thbPackage="{  item }">
+             <template #[`item.thbPackage`]="{  item }">
               {{  formatCurrency(item.thbPackage)  }}
             </template>
-             <template #item.usdUnit="{  item }">
+             <template #[`item.usdUnit`]="{  item }">
               {{  formatCurrency(item.usdUnit)  }}
             </template>
-             <template #item.usdPackage="{  item }">
+             <template #[`item.usdPackage`]="{  item }">
               {{  formatCurrency(item.usdPackage)  }}
             </template>
-            <template #item.actions="{ item }">
+            <template #[`item.actions`]="{ item }">
              
               <div class="d-flex">
                 <v-btn color="blue" rounded="xl" variant="outlined" @click="showEdit(item)"><v-icon>mdi-pen</v-icon>{{
