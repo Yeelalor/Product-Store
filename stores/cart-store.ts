@@ -61,7 +61,7 @@ export const useCartStore = defineStore("cart", {
                     proName: item.productName,
                     proId: item.productId,
                     qty: item.qty,
-                    pricetLak: lakPrice,
+                    priceLak: lakPrice,
                     priceThb: thbPrice,
                     priceUsd: usdPrice,
                     lakAmount: lakPrice * item.qty,

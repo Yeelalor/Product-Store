@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import type { ProductListModel } from "@/models/product-model";
 import type { ExChangeModel } from "~/models/exchange-model";
-import type { CustomerPaymentMainList } from "~/models/customer-payment-model";
+import type { CustomerPaymentMainList, CustomerPaymentDetails } from "~/models/customer-payment-model";
 export const useCustomerProductsStore = defineStore("customerProducts", {
     state: () => ({
         products: [] as ProductListModel[],
@@ -14,6 +14,8 @@ export const useCustomerProductsStore = defineStore("customerProducts", {
         viewDetails_for_Order: false,
         image_list: [] as string[],
         customerPaymentList: [] as CustomerPaymentMainList[],
+        customerPaymentDetailsList: [] as CustomerPaymentDetails[],
+        sumTotalList: {},
         loading: false,
 
     }),
@@ -21,6 +23,23 @@ export const useCustomerProductsStore = defineStore("customerProducts", {
         callapi() {
             const { mainApi } = useApi();
             return mainApi;
+        },
+        async getCustomerPaymentDetailsList(billId: string) {
+            this.loading = true;
+            var body = {
+                "billId": billId
+            }
+            const res = await this.callapi().post("getCustomerPaymentDetail", body);
+            if (res.data.status == "00") {
+                this.loading = false;
+                this.customerPaymentDetailsList = res.data.dataResCusPayDetail;
+                this.sumTotalList = res.data.customerPaymentTotal;
+                console.log("get products=================", this.customerPaymentDetailsList);
+
+            } else {
+                this.loading = false;
+                CallSwal({ icon: "error", title: "Error", text: res.data.message });
+            }
         },
         async getCustomerPaymentMainList(startDate: string, endDate: string) {
             this.loading = true;

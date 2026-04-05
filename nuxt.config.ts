@@ -91,7 +91,7 @@ export default defineNuxtConfig({
       apiBaseMain:
         process.env.NODE_ENV === "production"
           ? "http://10.0.10.11:3333/api/dev/service/"
-          : "http://10.0.10.11:3333/api/dev/service/",
+          : "http://192.168.100.31:3333/api/dev/service/",
     },
   },
 });
