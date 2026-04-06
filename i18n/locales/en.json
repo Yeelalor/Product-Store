@@ -94,5 +94,6 @@
   "list_order": "Order List",
   "rows_per_page": "Items per page",
   "item_total": "Total Items",
-  "item": "Items"
+  "item": "Items",
+  "payment_details": "Payment Details"
 }

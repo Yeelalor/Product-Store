@@ -94,5 +94,6 @@
   "list_order": "Danh sách đặt hàng",
   "rows_per_page": "số mục trên mỗi trang",
   "item_total": "tổng số mặt hàng",
-  "item": "mặt hàng"
+  "item": "mặt hàng",
+  "payment_details": "ລາຍລະອຽດການຊຳລະ"
 }

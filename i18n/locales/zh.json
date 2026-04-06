@@ -93,5 +93,6 @@
   "list_order": "订单列表",
   "rows_per_page": "每页显示项目",
   "item_total": "Total Items",
-  "item": "项目"
+  "item": "项目",
+  "payment_details": "ລາຍລະອຽດການຊຳລະ"
 }
