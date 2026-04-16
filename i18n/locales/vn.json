@@ -95,5 +95,9 @@
   "rows_per_page": "số mục trên mỗi trang",
   "item_total": "tổng số mặt hàng",
   "item": "mặt hàng",
-  "payment_details": "ລາຍລະອຽດການຊຳລະ"
+  "payment_details": "ລາຍລະອຽດການຊຳລະ",
+  "customer_order_list": "Danh sách các mặt hàng khách hàng đã đặt.",
+  "btn_printBill": "In hóa đơn",
+  "total_amount": "Tổng số tiền đã thanh toán",
+  "address": "Địa chỉ hiện tại"
 }

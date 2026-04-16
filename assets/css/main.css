@@ -29,6 +29,10 @@
   background: radial-gradient(ellipse at center, #1572dd, #5db7f3);
   color: white;
 }
+.bg-gray {
+  background: radial-gradient(ellipse at center, #b5b9be, #dae0e4);
+  color: white;
+}
 .v-data-table thead tr {
   background: radial-gradient(ellipse at center, #1572dd, #5db7f3) !important;
 }
@@ -40,4 +44,19 @@
   background: transparent !important; /* keep gradient visible */
   color: white !important;
   font-weight: 600 !important;
+}
+.my-table,
+.my-table * {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.a4-page {
+  width: 210mm;
+  min-height: 297mm;
+  background-image: url("../../assets/images/bg.jpeg") !important;
+  background-repeat: repeat;
+  background-position: top;
+  background-attachment: scroll;
+  background-size: contain; /* 🔥 exact A4 fit */
 }

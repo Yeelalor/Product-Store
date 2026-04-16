@@ -95,5 +95,9 @@
   "rows_per_page": "ຈຳນວນລາຍການ",
   "item_total": "ຈຳນວນລາຍການທັງໝົດ",
   "item": "ລາຍການ",
-  "payment_details": "ລາຍລະອຽດການຊຳລະ"
+  "payment_details": "ລາຍລະອຽດການຊຳລະ",
+  "customer_order_list": "ລາຍການສິນຄ້າທີ່ລູກຄ້າສັ່ງຊື້",
+  "btn_printBill": "ພິມໃບບິນ",
+  "total_amount": "ຈຳນວນເງິນທັງໝົດທີ່ຈ່າຍ",
+  "address": "ທີ່ຢູ່ປະຈຸບັນ"
 }

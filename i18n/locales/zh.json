@@ -94,5 +94,9 @@
   "rows_per_page": "每页显示项目",
   "item_total": "Total Items",
   "item": "项目",
-  "payment_details": "ລາຍລະອຽດການຊຳລະ"
+  "payment_details": "ລາຍລະອຽດການຊຳລະ",
+  "customer_order_list": "顾客订购的商品清单。",
+  "btn_printBill": "打印账单",
+  "total_amount": "支付总额",
+  "address": "当前地址"
 }

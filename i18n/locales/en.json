@@ -95,5 +95,9 @@
   "rows_per_page": "Items per page",
   "item_total": "Total Items",
   "item": "Items",
-  "payment_details": "Payment Details"
+  "payment_details": "Payment Details",
+  "customer_order_list": "List of items ordered by the customer.",
+  "btn_printBill": "Print Bill",
+  "total_amount": "Total Amount Paid",
+  "address": "Current Address"
 }

@@ -62,13 +62,13 @@
         </template>
         <v-list density="comfortable" nav>
           <v-list-item append-icon="mdi-chevron-right" variant="plain" :title="$t('product_list') + ' admin'"
-            to="/Customer/Customer-list-product" link />
+            to="/Admin/Admin-list-product" link />
           <v-divider></v-divider>
           <v-list-item append-icon="mdi-chevron-right" variant="plain" :title="$t('product_list') + ' saller'"
             to="/Price/Price" link />
           <v-divider></v-divider>
           <v-list-item append-icon="mdi-chevron-right" variant="plain" :title="$t('product_list') + ' buyer'"
-            to="/Exchange/ExchangeRate" link />
+            to="/Customer/Customer-list-product" link />
         </v-list>
       </v-menu>
       <v-spacer></v-spacer>

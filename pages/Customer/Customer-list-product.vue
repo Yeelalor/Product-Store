@@ -30,13 +30,16 @@
             </v-col></v-row
           >
           <v-row
-            ><v-col cols="3" v-for="i in 16" :key="i"
+            ><v-col cols="3" v-for="i in pDetails" :key="i"
               ><v-card
-                width="280px"
-                height="300px"
-                style="background-image: url(/image.png); background-size: cover"
+                 width="280px"
+                  height="300px"
+                  :style="{
+                    backgroundImage: 'url(i.packageUrl)',
+                    backgroundSize: 'cover'
+                  }"
                 class="custom-radius"
-                @click="viewDetails = true"
+                @click="product.selectItem(i,branchExchange?.[0])"
               >
                 <v-card
                   style="margin-top: 150px"
@@ -44,16 +47,26 @@
                   height="150px"
                   class="my-card text-white custom-radius"
                 >
-                  <v-card-title primary-title class=""> Flowers </v-card-title>
+                  <v-card-title primary-title class=""> {{i.productName}} </v-card-title>
                   <v-card-text>
-                    <h5>{{ i.companyName }}({{ i.branchName }})</h5>
+                    <!-- <h5>{{ i.companyName }}({{ i.branchName }})</h5> -->
                     <p>
                       {{ $t("price_unit") }}:
-                      <b>{{ formatCurrency(i.lakUnit) }}/kip</b>
+                      <b>{{
+                        exChangeRate.calculateProductPrice(
+                          i,
+                          branchExchange?.[0],'unit'
+                        )
+                      }}/kip</b>
                     </p>
                     <p>
                       {{ $t("price_package") }}:
-                      <b>{{ formatCurrency(i.lakPackage) }}/kip</b>
+                      <b> {{
+                        exChangeRate.calculateProductPrice(
+                          i,
+                          branchExchange?.[0],'package'
+                        )
+                      }}/kip</b>
                     </p>
                   </v-card-text>
                 </v-card>
