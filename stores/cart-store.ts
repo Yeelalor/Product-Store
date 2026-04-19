@@ -88,6 +88,7 @@ export const useCartStore = defineStore("cart", {
             this.totalAmountLak = 0;
             this.totalAmountThb = 0;
         },
+
         loadCart() {
             const savedCart = localStorage.getItem('cart');
             if (savedCart) {

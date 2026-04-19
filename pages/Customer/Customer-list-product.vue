@@ -4,7 +4,11 @@
       <v-card-text>
         <div class="d-flex justify-center align-center mb-4">
           <h3 class="mr-4">{{ $t("select_type_view") }}:</h3>
-          <v-btn class="mr-4" color="primary" variant="tonal" @click="viewOption('list')"
+          <v-btn
+            class="mr-4"
+            color="primary"
+            variant="tonal"
+            @click="viewOption('list')"
             ><v-icon>mdi-view-list</v-icon>{{ $t("view_list") }}</v-btn
           >
           <v-btn color="primary" variant="tonal" @click="viewOption('grid')"
@@ -23,7 +27,11 @@
                   v-model="search"
                 ></v-text-field>
 
-                <v-badge location="top right" color="red" :content="cartList.length">
+                <v-badge
+                  location="top right"
+                  color="red"
+                  :content="cartList.length"
+                >
                   <v-icon class="mr-2" size="x-large">mdi-cart-heart</v-icon>
                 </v-badge>
               </div>
@@ -32,14 +40,14 @@
           <v-row
             ><v-col cols="3" v-for="i in pDetails" :key="i"
               ><v-card
-                 width="280px"
-                  height="300px"
-                  :style="{
-                    backgroundImage: 'url(i.packageUrl)',
-                    backgroundSize: 'cover'
-                  }"
+                width="280px"
+                height="300px"
+                :style="{
+                  backgroundImage: 'url(i.packageUrl)',
+                  backgroundSize: 'cover',
+                }"
                 class="custom-radius"
-                @click="product.selectItem(i,branchExchange?.[0])"
+                @click="product.selectItem(i, branchExchange?.[0])"
               >
                 <v-card
                   style="margin-top: 150px"
@@ -47,26 +55,34 @@
                   height="150px"
                   class="my-card text-white custom-radius"
                 >
-                  <v-card-title primary-title class=""> {{i.productName}} </v-card-title>
+                  <v-card-title primary-title class="">
+                    {{ i.productName }}
+                  </v-card-title>
                   <v-card-text>
                     <!-- <h5>{{ i.companyName }}({{ i.branchName }})</h5> -->
                     <p>
                       {{ $t("price_unit") }}:
-                      <b>{{
-                        exChangeRate.calculateProductPrice(
-                          i,
-                          branchExchange?.[0],'unit'
-                        )
-                      }}/kip</b>
+                      <b
+                        >{{
+                          exChangeRate.calculateProductPrice(
+                            i,
+                            branchExchange?.[0],
+                            "unit",
+                          )
+                        }}/kip</b
+                      >
                     </p>
                     <p>
                       {{ $t("price_package") }}:
-                      <b> {{
-                        exChangeRate.calculateProductPrice(
-                          i,
-                          branchExchange?.[0],'package'
-                        )
-                      }}/kip</b>
+                      <b>
+                        {{
+                          exChangeRate.calculateProductPrice(
+                            i,
+                            branchExchange?.[0],
+                            "package",
+                          )
+                        }}/kip</b
+                      >
                     </p>
                   </v-card-text>
                 </v-card>
@@ -86,9 +102,13 @@
                   prepend-inner-icon="mdi-magnify"
                   v-model="search"
                 ></v-text-field
-                ><v-badge class="ml-4" location="top right" color="red" :content="cartList.length" @click="$router.push('/Customer/Customer-Order-list') ">
-                  
-               
+                ><v-badge
+                  class="ml-4"
+                  location="top right"
+                  color="red"
+                  :content="cartList.length"
+                  @click="$router.push('/Customer/Customer-Order-list')"
+                >
                   <v-icon class="mr-2" size="x-large">mdi-cart-heart</v-icon>
                 </v-badge>
               </div>
@@ -107,28 +127,28 @@
               >
                 <template #[`item.lakUnit`]="{ item }">
                   <td>
-                    <p >
+                    <p>
                       {{
                         exChangeRate.calculateProductPrice(
                           item,
-                          branchExchange?.[0],'unit'
+                          branchExchange?.[0],
+                          "unit",
                         )
                       }}
                     </p>
-                    
                   </td>
                 </template>
                 <template #[`item.lakPackage`]="{ item }">
                   <td>
-                    <p >
+                    <p>
                       {{
                         exChangeRate.calculateProductPrice(
                           item,
-                          branchExchange?.[0],'package'
+                          branchExchange?.[0],
+                          "package",
                         )
                       }}
                     </p>
-                    
                   </td>
                 </template>
                 <template #[`item.thbUUnit`]="{ item }">
@@ -149,7 +169,7 @@
                     <v-btn
                       color="primary"
                       variant="outlined"
-                      @click="product.selectItem(item,branchExchange?.[0])"
+                      @click="product.selectItem(item, branchExchange?.[0])"
                     >
                       <v-icon class="mr-2">mdi-cart-heart</v-icon>
                       {{ $t("order") }}
@@ -190,11 +210,15 @@
                 />
               </v-card>
               <v-sheet class="mx-auto" elevation="3" max-width="800">
-                <v-slide-group class="pa-4" selected-class="bg-success" show-arrows>
+                <v-slide-group
+                  class="pa-4"
+                  selected-class="bg-success"
+                  show-arrows
+                >
                   <v-slide-group-item
                     v-for="n in product.image_list.length"
                     :key="n"
-                    v-slot="{  toggle, selectedClass }"
+                    v-slot="{ toggle, selectedClass }"
                   >
                     <v-card
                       :class="['ma-4', selectedClass]"
@@ -203,7 +227,9 @@
                       width="200"
                       @click="toggle"
                     >
-                      <div class="d-flex fill-height align-center justify-center">
+                      <div
+                        class="d-flex fill-height align-center justify-center"
+                      >
                         <v-scale-transition>
                           <img
                             :src="product.image_list[n - 1]"
@@ -225,25 +251,37 @@
                     <h4>{{ $t("price_package") }}:</h4>
                     <h4>{{ $t("price_unit") }}:</h4>
                     <h4>{{ $t("size") }}:</h4>
-                    <br /> 
+                    <br />
                     <br />
                     <h4 class="mt-2">{{ $t("add_qty") }}:</h4>
                   </div>
                   <div width="60%" class="ml-5">
                     <h4
-                      :class="product.size == 'package' ? 'text-primary' : 'text-black'"
+                      :class="
+                        product.size == 'package'
+                          ? 'text-primary'
+                          : 'text-black'
+                      "
                     >
                       {{
-                      exChangeRate.calculateProductPrice(
-                              productDetailsOnview,
-                              branchExchange?.[0],'package')
+                        exChangeRate.calculateProductPrice(
+                          productDetailsOnview,
+                          branchExchange?.[0],
+                          "package",
+                        )
                       }}
                     </h4>
-                    <h4 :class="product.size == 'unit' ? 'text-primary' : 'text-black'">
-                       {{
-                      exChangeRate.calculateProductPrice(
-                              productDetailsOnview,
-                              branchExchange?.[0],'unit')
+                    <h4
+                      :class="
+                        product.size == 'unit' ? 'text-primary' : 'text-black'
+                      "
+                    >
+                      {{
+                        exChangeRate.calculateProductPrice(
+                          productDetailsOnview,
+                          branchExchange?.[0],
+                          "unit",
+                        )
                       }}
                     </h4>
                     <v-btn
@@ -259,12 +297,22 @@
                       @click="product.selectSize('unit')"
                       >{{ $t("unit") }}</v-btn
                     >
-                    <h4> {{product.product.size=='package' ? formatCurrency(product.product.total) : '' }}</h4>
+                    <h4>
+                      {{
+                        product.product.size == "package"
+                          ? formatCurrency(product.product.total)
+                          : ""
+                      }}
+                    </h4>
                     <br />
-                    <br>
+                    <br />
                     <div class="d-flex align-center">
-                      <v-icon @click="product.minusQuantity()">mdi-minus</v-icon>
-                      <v-btn color="primary">{{ product.product.qty==null? 1 : product.product.qty }}</v-btn>
+                      <v-icon @click="product.minusQuantity()"
+                        >mdi-minus</v-icon
+                      >
+                      <v-btn color="primary">{{
+                        product.product.qty == null ? 1 : product.product.qty
+                      }}</v-btn>
                       <v-icon @click="product.addQuantity()" class="mr-5"
                         >mdi-plus</v-icon
                       >
@@ -279,7 +327,11 @@
                 ><v-col cols="6"
                   ><v-btn color="red" class="ma-5" variant="outlined"
                     ><v-icon> mdi-cash-100 </v-icon>{{ $t("buy_now") }}</v-btn
-                  ><v-btn color="primary" class="ma-5" variant="outlined" @click="product.addToCart()"
+                  ><v-btn
+                    color="primary"
+                    class="ma-5"
+                    variant="outlined"
+                    @click="product.addToCart()"
                     ><v-icon> mdi-cart-plus </v-icon>{{ $t("add_cart") }}</v-btn
                   ></v-col
                 ></v-row
@@ -309,7 +361,7 @@ const { showWarning } = useAlert();
 const exChangeRate = useExchangeStore();
 const imageDetails = ref([]);
 const product = useCustomerProductsStore();
-const cartStore=useCartStore();
+const cartStore = useCartStore();
 
 const pDetails = computed(() => product.products);
 const productDetailsOnview = computed(() => product.product);
@@ -324,14 +376,10 @@ const cartList = computed(() => cartStore.cartItems);
 
 const branchExchange = computed(() => exChangeRate.exchanges);
 onMounted(() => {
-   cartStore.loadCart();
+  cartStore.loadCart();
   product.fetchProducts();
-//   if(product !=null)
-// {
-//  product.product.size=product?.size;
-// } 
+
   exChangeRate.getExchangeByBranch(1);
-  
 });
 
 const headers = [

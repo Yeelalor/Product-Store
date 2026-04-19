@@ -79,6 +79,7 @@ export const usePriceStore = defineStore('priceStore', {
             this.request.usd = null;
         },
         async insertPrice() {
+            this.loading = true;
             var body = {
                 branchId: this.request.branchId,
                 productId: this.request.productId,
