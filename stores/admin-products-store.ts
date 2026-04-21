@@ -12,7 +12,8 @@ export const useAdminProductsStore = defineStore("adminProducts", {
         viewDetails_for_Order: false,
         quantity: 0,
         size: "package",
-
+        selectMulti:[] as ProductListModel[],
+        dialogMultiple:false,
     }),
     getters: {
         totalPriceLak(state) {
@@ -45,7 +46,30 @@ export const useAdminProductsStore = defineStore("adminProducts", {
             const { mainApi } = useApi();
             return mainApi;
         },
-        cearProductData() {
+       
+        calculatePriceQty(item:ProductListModel){
+            if(item.size=='unit'){
+                
+            }
+         
+        },
+         minusQuantity() {
+            if (this.quantity > 0) {
+                this.product!.size = this.size as any;
+                this.quantity -= 1;
+                this.product!.qty = this.quantity as any;
+
+            }
+
+        },
+        addQuantity() {
+            this.quantity += 1;
+            if (this.product) {
+                this.product.qty = this.quantity as any;
+                this.product!.size = this.size as any;
+            }
+        },
+        clearProductData() {
             this.viewDetails_for_Order = false;
             this.quantity = 1;
             this.size = "package";
@@ -119,6 +143,8 @@ export const useAdminProductsStore = defineStore("adminProducts", {
                 });
             }
             this.saveCart();
+            this.product=[];
+            this.viewDetails_for_Order=false;
 
         },
         saveCart() {

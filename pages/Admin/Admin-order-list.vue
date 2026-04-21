@@ -26,16 +26,12 @@
             <p>{{ item.qty }} {{ item.size }}</p>
           </template>
           <template #[`item.lakAmount`]="{ item }">
-            <p>
-              {{
-                exChangeRate.calculateProductPriceWithQty(
-                  item,
-                  branchExchange[0],
-                  item.size,
-                  item.qty,
-                )
+            
+            {{
+                item.size == "package"
+                  ? formatCurrency(item.lakPackage * item.qty)
+                  : formatCurrency(item.lakUnit * item.qty)
               }}
-            </p>
           </template>
           <template #[`item.thbAmount`]="{ item }">
             <p>
@@ -100,166 +96,7 @@
     </v-card>
   </div>
 
-  <v-dialog
-    v-model="adminStore.viewDetails_for_Order"
-    fullscreen
-    scrollable
-    persistent
-    :overlay="false"
-    max-width="900px"
-    transition="dialog-transition"
-  >
-    <v-card>
-      <v-card-title primary-title class="d-flex justify-startspace-between">
-        <h4>{{ $t("product_details") }}</h4>
-        <v-spacer></v-spacer>
-        <v-btn color="red" @click="adminStore.clearProductData()">X</v-btn>
-      </v-card-title>
-      <v-divider></v-divider>
-      <v-card-text>
-        <v-row
-          ><v-col cols="12" md="4">
-            <v-card width="100%" height="400px" class="mb-4 justify-center">
-              <v-img
-                :src="productDetailsOnview?.packageUrl"
-                alt="Product Image"
-                width="100%"
-                height="100%"
-              />
-            </v-card>
-            <v-sheet class="mx-auto" elevation="3" max-width="800">
-              <v-slide-group
-                class="pa-4"
-                selected-class="bg-success"
-                show-arrows
-              >
-                <v-slide-group-item
-                  v-for="n in adminStore.image_list.length"
-                  :key="n"
-                  v-slot="{ toggle, selectedClass }"
-                >
-                  <v-card
-                    :class="['ma-4', selectedClass]"
-                    color="grey-lighten-1"
-                    height="200"
-                    width="200"
-                    @click="toggle"
-                  >
-                    <div class="d-flex fill-height align-center justify-center">
-                      <v-scale-transition>
-                        <img
-                          :src="adminStore.image_list[n - 1]"
-                          alt="Product Image"
-                          width="100%"
-                          height="100%"
-                        />
-                      </v-scale-transition>
-                    </div>
-                  </v-card>
-                </v-slide-group-item>
-              </v-slide-group>
-            </v-sheet> </v-col
-          ><v-col cols="12" md="6">
-            <div>
-              <h2>{{ productDetailsOnview?.productName }}</h2>
-              <div class="d-flex">
-                <div width="50%" class="text-right">
-                  <h4>{{ $t("price_package") }}:</h4>
-                  <h4>{{ $t("price_unit") }}:</h4>
-                  <h4>{{ $t("size") }}:</h4>
-                  <br />
-                  <br />
-                  <h4 class="mt-2">{{ $t("add_qty") }}:</h4>
-                </div>
-                <div width="60%" class="ml-5">
-                  <!-- <h4
-                    :class="
-                      product.size == 'package' ? 'text-primary' : 'text-black'
-                    "
-                  >
-                    {{
-                      exChangeRate.calculateProductPrice(
-                        productDetailsOnview,
-                        branchExchange?.[0],
-                        "package",
-                      )
-                    }}
-                  </h4> -->
-                  <!-- <h4
-                    :class="
-                      product.size == 'unit' ? 'text-primary' : 'text-black'
-                    "
-                  >
-                    {{
-                      exChangeRate.calculateProductPrice(
-                        productDetailsOnview,
-                        branchExchange?.[0],
-                        "unit",
-                      )
-                    }}
-                  </h4> -->
-                  <v-btn
-                    class="mr-3"
-                    :color="adminStore.size == 'package' ? 'primary' : 'grey'"
-                    @click="adminStore.selectSize('package')"
-                    variant="outlined"
-                    >{{ $t("pack") }}</v-btn
-                  >
-                  <v-btn
-                    :color="adminStore.size == 'unit' ? 'primary' : 'grey'"
-                    variant="outlined"
-                    @click="adminStore.selectSize('unit')"
-                    >{{ $t("unit") }}</v-btn
-                  >
-                  <!-- <h4>
-                      {{
-                        adminStore.product.size == "package"
-                          ? formatCurrency(product.product.total)
-                          : ""
-                      }}
-                    </h4> -->
-                  <br />
-                  <br />
-                  <div class="d-flex align-center">
-                    <v-icon @click="adminStore.minusQuantity()"
-                      >mdi-minus</v-icon
-                    >
-                    <v-btn color="primary">{{
-                      product.product.qty == null ? 1 : product.product.qty
-                    }}</v-btn>
-                    <v-icon @click="adminStore.addQuantity()" class="mr-5"
-                      >mdi-plus</v-icon
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-            <br />
-            <v-divider></v-divider>
-            <br />
-            <v-row
-              ><v-col cols="6"
-                ><v-btn color="red" class="ma-5" variant="outlined"
-                  ><v-icon> mdi-cash-100 </v-icon>{{ $t("buy_now") }}</v-btn
-                ><v-btn
-                  color="primary"
-                  class="ma-5"
-                  variant="outlined"
-                  @click="adminStore.addToCart()"
-                  ><v-icon> mdi-cart-plus </v-icon>{{ $t("add_cart") }}</v-btn
-                ></v-col
-              ></v-row
-            >
-          </v-col></v-row
-        >
-      </v-card-text>
-      <v-card-actions>
-        <v-btn color="secondary" variant="outlined" @click="cancel()"
-          ><v-icon>mdi-cancel</v-icon>{{ $t("btn_cancel") }}</v-btn
-        >
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+
 </template>
 
 <script setup lang="ts">
